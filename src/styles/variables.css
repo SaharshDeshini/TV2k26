@@ -1,0 +1,47 @@
+
+/* Global CSS Variable Tokens & Day Accent Themes - Premium Minimal Dark Mode */
+
+:root {
+  /* Brand Accent Codes */
+  --accent-day1: #d9040b; /* Marvel Red */
+  --accent-day2: #d9040b;
+  --accent-day3: #d9040b;
+
+  --accent: var(--accent-day1);
+  --accent-glow: rgba(217, 4, 11, 0.15);
+
+  /* Global Design Tokens */
+  --bg: #000000;           /* Pure Black */
+  --bg-secondary: #050505; /* Near Black */
+  --surface: #121212;      /* Dark Surface */
+  --surface-elevated: #1c1c1c; /* Elevated Surface */
+  
+  --text-primary: #ffffff;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-color-hover: rgba(255, 255, 255, 0.15);
+
+  /* Font bindings */
+  --font-heading: 'Outfit', 'Manrope', 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+  --font-sans: 'Switzer', sans-serif;
+  --font-mono: monospace;
+}
+
+/* Contextual Theme Accent Updates */
+[data-theme="explore"] {
+  --accent: var(--accent-day1);
+  --accent-glow: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="create"] {
+  --accent: var(--accent-day2);
+  --accent-glow: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="celebrate"] {
+  --accent: var(--accent-day3);
+  --accent-glow: rgba(255, 255, 255, 0.05);
+}
+

@@ -1,0 +1,253 @@
+@import url('https://api.fontshare.com/v2/css?f[]=boska@300,400,500,700,900&f[]=stardom@400&f[]=switzer@300,400,500,600,700,800&display=swap');
+@import "tailwindcss";
+@import "./styles/variables.css";
+@import "./styles/typography.css";
+@import "./styles/animations.css";
+@import "./styles/utilities.css";
+
+@theme {
+  --font-boska: 'Boska', serif;
+  --font-stardom: 'Stardom', sans-serif;
+  --font-switzer: 'Switzer', sans-serif;
+
+  --color-primary: #000000;
+  --color-accent: #850307;
+  --color-accent-bright: #d9040b;
+  --color-accent-dark: #400103;
+  --color-glow: #ff3b43;
+  --color-secondary: #850307;
+  
+  --color-iron-red: #B71C1C;
+  --color-iron-gold: #FFD54F;
+  --color-spidey-red: #D32F2F;
+  --color-spidey-blue: #1976D2;
+  --color-widow-red: #D32F2F;
+  --color-widow-gray: #212121;
+  --color-cap-blue: #0D47A1;
+  
+  /* Override Tailwind's default cyan to map it to Red */
+  --color-cyan-50: #FFEBEE;
+  --color-cyan-100: #FFCDD2;
+  --color-cyan-200: #EF9A9A;
+  --color-cyan-300: #E57373;
+  --color-cyan-400: #ff3b43;
+  --color-cyan-500: #d9040b;
+  --color-cyan-600: #E53935;
+  --color-cyan-700: #850307;
+  --color-cyan-800: #C62828;
+  --color-cyan-900: #B71C1C;
+}
+
+/* Custom CSS Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+::-webkit-scrollbar-thumb {
+  background: #d9040b25;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #d9040b77;
+}
+
+html, body {
+  background-color: #000000;
+  color: #E2E8F0;
+  font-family: 'Switzer', sans-serif;
+  scroll-behavior: smooth;
+  overflow-x: clip;
+}
+
+/* Accessibility & Interaction Styles */
+button, 
+a, 
+[role="button"],
+.cursor-pointer {
+  cursor: pointer;
+}
+
+button:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid #d9040b;
+  outline-offset: 4px;
+  box-shadow: 0 0 12px rgba(217, 4, 11, 0.5);
+}
+
+/* Glassmorphism Styles */
+.glass-panel {
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(217, 4, 11, 0.15);
+}
+
+.glass-card {
+  background: rgba(18, 18, 24, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: auto;
+}
+
+.glass-card:hover {
+  border-color: var(--card-hover-border, rgba(255, 255, 255, 0.20));
+  box-shadow: 0 0 35px var(--card-hover-glow, rgba(255, 255, 255, 0.08)), inset 0 0 12px var(--card-hover-inner, rgba(255, 255, 255, 0.04));
+}
+
+/* Hologram Effects */
+.holo-grid {
+  background-size: 30px 30px;
+  background-image: 
+    linear-gradient(to right, rgba(217, 4, 11, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(217, 4, 11, 0.03) 1px, transparent 1px);
+}
+
+.holo-scanline {
+  position: relative;
+  overflow: hidden;
+}
+.holo-scanline::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  z-index: 10;
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+}
+
+/* Text Glows */
+.text-glow-cyan {
+  text-shadow: 0 0 8px rgba(255, 59, 67, 0.65), 0 0 20px rgba(255, 59, 67, 0.3);
+}
+
+.text-glow-red {
+  text-shadow: 0 0 8px rgba(183, 28, 28, 0.8), 0 0 20px rgba(183, 28, 28, 0.4);
+}
+
+.text-glow-purple {
+  text-shadow: 0 0 8px rgba(123, 31, 162, 0.8), 0 0 20px rgba(123, 31, 162, 0.4);
+}
+
+/* Rotating animations for Arc Reactor */
+@keyframes spin-clockwise {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes spin-counterclockwise {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(-360deg); }
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.3; transform: scale(0.98); }
+  50% { opacity: 0.8; transform: scale(1.02); }
+}
+
+.animate-spin-cw {
+  animation: spin-clockwise 20s linear infinite;
+}
+.animate-spin-ccw {
+  animation: spin-counterclockwise 15s linear infinite;
+}
+.animate-spin-cw-fast {
+  animation: spin-clockwise 4s linear infinite;
+}
+.animate-spin-ccw-fast {
+  animation: spin-counterclockwise 3s linear infinite;
+}
+.animate-pulse-glow {
+  animation: pulse-glow 3.5s ease-in-out infinite;
+}
+
+/* Side Glow Dynamic Floating Animations */
+@keyframes float-glow-left {
+  0%, 100% {
+    opacity: 0.04;
+    transform: scale(1) translateY(0px) rotate(0deg);
+  }
+  50% {
+    opacity: 0.08;
+    transform: scale(1.1) translateY(-15px) rotate(5deg);
+  }
+}
+@keyframes float-glow-right {
+  0%, 100% {
+    opacity: 0.05;
+    transform: scale(1) translateY(0px) rotate(0deg);
+  }
+  50% {
+    opacity: 0.1;
+    transform: scale(1.1) translateY(15px) rotate(-5deg);
+  }
+}
+.pulse-ambient-left {
+  animation: float-glow-left 12s ease-in-out infinite;
+}
+.pulse-ambient-right {
+  animation: float-glow-right 15s ease-in-out infinite;
+}
+
+/* Background grid details - Updated to Orange */
+.bg-radar {
+  background-image: radial-gradient(circle, rgba(249, 115, 22, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Tech Grid Overlay Pattern */
+.tech-grid-overlay {
+  background-size: 48px 48px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.012) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
+}
+
+/* Silver Metallic Text Gradient */
+.text-gradient-silver {
+  background: linear-gradient(to bottom, #ffffff 40%, #cccccc 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 8px rgba(255, 255, 255, 0.08));
+}
+
+/* Marvel Cinematic Upgrades */
+.marvel-metallic-text {
+  background: linear-gradient(
+    135deg,
+    #8B0000 0%,
+    #A11217 25%,
+    #D4AF37 50%,
+    #A11217 75%,
+    #8B0000 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: metallic-sweep 4s linear infinite;
+  filter: drop-shadow(0 2px 8px rgba(161, 18, 23, 0.45));
+}
+
+.arc-reactor-glow {
+  color: #00E5FF;
+  text-shadow: 0 0 8px rgba(0, 229, 255, 0.85), 0 0 20px rgba(0, 229, 255, 0.45);
+}
+
+@keyframes metallic-sweep {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+html.scroll-locked {
+  overflow: hidden !important;
+  height: 100vh !important;
+}
+

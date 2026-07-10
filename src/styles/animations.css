@@ -1,0 +1,13 @@
+/* Animation Keyframes & Transitions */
+
+/* Custom dynamic design system theme transition all */
+.theme-transition-all {
+  transition: var(--transition-theme);
+}
+
+/* Base style transitions & background */
+html, body {
+  background-color: var(--bg);
+  color: var(--text-primary);
+  transition: var(--transition-theme);
+}

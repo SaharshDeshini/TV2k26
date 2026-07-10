@@ -1,0 +1,253 @@
+/* Layout Utilities & Premium Aesthetics */
+
+.glass-panel {
+  background: rgba(10, 10, 10, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--color-border);
+}
+
+.glass-panel-interactive {
+  background: rgba(10, 10, 10, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--color-border);
+  transition:
+    all 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.8s,
+    box-shadow 0.8s;
+}
+
+.glass-panel-interactive:hover {
+  background: rgba(15, 15, 15, 0.85);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.8);
+  transform: translateY(-4px);
+}
+
+/* Custom premium gradient elements */
+.accent-gradient-text {
+  background: linear-gradient(135deg, #ffffff 30%, #c7cdd8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: background 0.8s;
+}
+
+.accent-gradient-border {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--color-background), var(--color-background))
+      padding-box,
+    linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.05) 0%,
+        rgba(255, 255, 255, 0.15) 100%
+      )
+      border-box;
+  transition: background 0.8s;
+}
+
+.grid-overlay {
+  background-size: 50px 50px;
+  background-image:
+    linear-gradient(to right, rgba(250, 246, 233, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(250, 246, 233, 0.08) 1px, transparent 1px);
+}
+
+.text-clip-gradient {
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* Subtle dot grid texture overlay for content sections */
+.dot-grid-texture::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: radial-gradient(
+    circle,
+    var(--accent) 1.2px,
+    transparent 1.2px
+  );
+  background-size: 28px 28px;
+  opacity: 0.18;
+  transition: opacity 0.8s ease;
+}
+
+/* Accent gradient flow between sections */
+.section-flow-divider {
+  position: relative;
+}
+.section-flow-divider::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 100px;
+  pointer-events: none;
+  z-index: 1;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    color-mix(in srgb, var(--accent) 12%, var(--bg)) 50%,
+    var(--bg) 100%
+  );
+}
+
+/* Hide scrollbar utility */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* --- Cinematic Reveal & Spotlight Entrance CSS --- */
+
+:root {
+  --tv-void: #000000; /* pure black */
+  --tv-void-deep: #000000; /* pure black */
+  --tv-mist-deep: #140203; /* very soft red/black mist */
+  --tv-beam: #ffffff; /* bright white beam */
+  --tv-beam-dim: #94a3b8; /* slate text, dimmed accent */
+  --tv-mx: 50vw; /* JS-set ambient glow X */
+  --tv-my: 50vh; /* JS-set ambient glow Y */
+  --tv-beam-angle: -32deg; /* JS-set beam rig rotation */
+  --tv-beam-angle-raw: 0; /* JS-set raw rotation float */
+}
+
+/* Stage Container styling */
+.tv-stage {
+  width: 100%;
+  overflow-x: clip;
+}
+
+/* Unused letterbox bar styles removed to prevent black top overlays */
+
+/* 5. Ambient Cursor Glow */
+#tv-ambient-glow {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 40;
+  mix-blend-mode: screen;
+  background: radial-gradient(
+    circle 260px at var(--tv-mx) var(--tv-my),
+    color-mix(in srgb, var(--tv-beam) 10%, transparent),
+    transparent 70%
+  );
+}
+
+/* 6. Hero Content Reveal Wrapper */
+.tv-hero-content {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateY(14px);
+  z-index: 10;
+  transition:
+    opacity 1.1s ease 0.6s,
+    transform 1.1s ease 0.6s;
+  pointer-events: none;
+}
+
+.tv-stage.is-open .tv-hero-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 7. Metallic Light Sweep Title */
+.tv-hero-title .tv-sweep {
+  background-image: linear-gradient(
+    110deg,
+    #9ca3af 0%,
+    #c4c7cc 25%,
+    #e2e5e9 42%,
+    #ffffff 50%,
+    #e2e5e9 58%,
+    #c4c7cc 75%,
+    #9ca3af 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  /* Soft, dark shadow for premium depth without glow */
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.65));
+  animation: metallicShine 13s infinite ease-in-out;
+}
+
+@keyframes metallicShine {
+  0% {
+    background-position: calc(-100% + var(--tv-beam-angle-raw, 0) * 2.5%) 0;
+  }
+  14% {
+    background-position: calc(100% + var(--tv-beam-angle-raw, 0) * 2.5%) 0;
+  }
+  100% {
+    background-position: calc(100% + var(--tv-beam-angle-raw, 0) * 2.5%) 0;
+  }
+}
+
+/* 7.5 Button Ambient Reflection Glow */
+.tv-hero-btn-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    circle 80px at calc(50% + var(--tv-beam-angle-raw, 0) * 8%) 50%,
+    rgba(245, 158, 11, 0.18) 0%,
+    transparent 80%
+  );
+  transition: opacity 1.2s ease 1.8s;
+  z-index: 1;
+}
+.tv-stage.is-open .tv-hero-btn-glow {
+  opacity: 1;
+}
+
+/* 7.6 Countdown Glass Beam Reflection */
+.tv-countdown-reflection {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle 100px at calc(50% + var(--tv-beam-angle-raw, 0) * 8%) 50%,
+    rgba(245, 158, 11, 0.08) 0%,
+    transparent 80%
+  );
+  z-index: 0;
+}
+
+/* 8. Scroll Cue Cue Transition */
+.tv-scroll-cue {
+  opacity: 0;
+  transition: opacity 1s ease 2.4s;
+}
+.tv-stage.is-open .tv-scroll-cue {
+  opacity: 1;
+}
+
+/* Prefers-reduced-motion contract */
+@media (prefers-reduced-motion: reduce) {
+
+  #tv-ambient-glow {
+    display: none;
+  }
+  .tv-hero-content {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+  .tv-hero-title .tv-sweep {
+    transition: none;
+    background-position: 0% 0;
+  }
+}
