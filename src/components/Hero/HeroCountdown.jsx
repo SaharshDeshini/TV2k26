@@ -57,7 +57,7 @@ export default function HeroCountdown({
       {countdownVisible && (
         <motion.div
           style={{ y: yScroll, opacity: opacityScroll, pointerEvents: pointerEventsScroll }}
-          className={`mb-4 sm:mb-8 ${isMobile ? 'mt-0' : 'mt-[-34px]'}`}
+          className={`${isMobile ? 'mb-6 mt-0' : 'mb-4 sm:mb-8 mt-[-34px]'}`}
         >
           <motion.div
             variants={pillVariants}

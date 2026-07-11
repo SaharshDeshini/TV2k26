@@ -60,7 +60,7 @@ export default function HeroSection() {
   const { scrollY } = useScroll();
   const rawProgress = useTransform(
     scrollY,
-    [0, isMobile ? (windowHeight || 800) : 2.0 * (windowHeight || 800)],
+    [0, isMobile ? 1.8 * (windowHeight || 800) : 2.0 * (windowHeight || 800)],
     [0, 1]
   );
   const scrollYProgress = useSpring(rawProgress, {
@@ -191,7 +191,7 @@ export default function HeroSection() {
         ref={containerRef}
         id="hero-scene-container"
         className="relative w-full"
-        style={{ height: isMobile ? 'auto' : '200vh' }}
+        style={{ height: isMobile ? 'auto' : '200vh', minHeight: isMobile ? '100svh' : undefined }}
       >
         <header
           id="stage"

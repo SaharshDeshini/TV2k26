@@ -128,7 +128,7 @@ export default function HeroTitle({
           animate={animateState}
         >
           <motion.h1
-            className={`editorial-title-lg tv-hero-title max-w-5xl select-none text-center ${isMobile ? 'mb-2.5' : 'mb-6'}`}
+            className={`editorial-title-lg tv-hero-title max-w-5xl select-none text-center ${isMobile ? 'mb-5' : 'mb-6'}`}
             style={{
               fontWeight: 800, // ExtraBold weight
             }}
@@ -176,7 +176,7 @@ export default function HeroTitle({
             duration: isTransitioning ? 0.7 : 1.0,
             ease: 'easeInOut'
           }}
-          className={`text-[10.5px] sm:text-xs font-sans tracking-widest leading-relaxed uppercase max-w-xl select-none font-normal px-6 text-center ${isMobile ? 'mb-6' : 'mb-10'}`}
+          className={`text-[11.5px] sm:text-xs font-sans tracking-widest leading-relaxed uppercase max-w-xl select-none font-normal px-6 text-center ${isMobile ? 'mb-8' : 'mb-10'}`}
           style={{ color: 'rgba(255, 255, 255, 0.45)' }}
         >
           A High-Fidelity National Level Tech Symposium hosted by Department of Information Technology at VNR VJIET.
@@ -197,7 +197,7 @@ export default function HeroTitle({
             duration: isTransitioning ? 0.7 : 1.0,
             ease: 'easeInOut'
           }}
-          className={`flex ${isMobile ? 'flex-col' : 'flex-col sm:flex-row'} items-center justify-center ${isMobile ? 'gap-3 w-full px-6' : 'gap-4 sm:gap-6'}`}
+          className={`flex ${isMobile ? 'flex-col' : 'flex-col sm:flex-row'} items-center justify-center ${isMobile ? 'gap-3.5 w-full px-6' : 'gap-4 sm:gap-6'}`}
         >
           {/* Primary CTA — Register Now (Opaque Metallic Champagne Gold Gradient with Layered Shadows) */}
           <motion.a

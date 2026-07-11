@@ -159,23 +159,33 @@ export default function HeroFloatingObjects({
       let rawY = (anchor?.y ?? 50) + (rand() * 4 - 2);
 
       if (isMobile) {
-        // Enforce X safe zone (15% to 85% is unsafe for text)
-        if (rawX >= 15 && rawX <= 85) {
+        // Enforce X safe zone (12% to 88% is unsafe for text — keep icons at edges)
+        if (rawX >= 12 && rawX <= 88) {
           // Push to nearest safe side
-          rawX = rawX < 50 ? 8 : 92;
+          rawX = rawX < 50 ? 6 : 94;
         }
         // Move large icons even closer to the edges
         if (sizeClass === 'large') {
-          rawX = rawX < 50 ? 5 : 95;
-          // Avoid placing large icons behind the subtitle/middle area (y: 35 to 65)
-          if (rawY >= 30 && rawY <= 70) {
-            rawY = rawY < 50 ? 20 : 80;
+          rawX = rawX < 50 ? 4 : 96;
+          // Avoid placing large icons behind the content area (y: 25 to 75)
+          if (rawY >= 25 && rawY <= 75) {
+            rawY = rawY < 50 ? 15 : 82;
           }
         }
-        // Avoid top (y < 12) and bottom (y > 80) center overlaps
+        // Protect countdown area (top center, y < 18%)
+        if (rawX > 15 && rawX < 85 && rawY < 18) {
+          rawY = rawY < 9 ? 5 : 20;
+          rawX = rawX < 50 ? 6 : 94;
+        }
+        // Protect scroll indicator area (bottom center, y > 82%)
+        if (rawX > 15 && rawX < 85 && rawY > 82) {
+          rawY = rawY > 90 ? 95 : 80;
+          rawX = rawX < 50 ? 6 : 94;
+        }
+        // Avoid top (y < 10) and bottom (y > 82) center overlaps
         if (rawX > 20 && rawX < 80) {
-          if (rawY < 12) rawY = 14;
-          if (rawY > 80) rawY = 78;
+          if (rawY < 10) rawY = 12;
+          if (rawY > 82) rawY = 80;
         }
       }
 
@@ -188,7 +198,7 @@ export default function HeroFloatingObjects({
 
       if (sizeClass === 'large') {
         // Foreground (large, blurred, high opacity, fast parallax)
-        baseSize = isMobile ? (32 + rand() * 6) : (46 + rand() * 12);
+        baseSize = isMobile ? (28 + rand() * 5) : (46 + rand() * 12);
         depth = 0.7 + rand() * 0.3; // 0.7 to 1.0 (close)
         opacityMultiplier = 0.35 + rand() * 0.10; // 35% to 45%
         blur = isMobile ? 1.0 : (1.8 + rand() * 1.4); // Less blur on mobile for perf
@@ -202,7 +212,7 @@ export default function HeroFloatingObjects({
         parallaxMultiplier = 0.1 + depth * 0.1;
       } else {
         // Midground (medium, clear, in-focus, normal parallax)
-        baseSize = isMobile ? (20 + rand() * 4) : (26 + rand() * 8);
+        baseSize = isMobile ? (16 + rand() * 4) : (26 + rand() * 8);
         depth = 0.3 + rand() * 0.4; // 0.3 to 0.7 (middle)
         opacityMultiplier = 0.25 + rand() * 0.10; // 25% to 35%
         blur = 0; // In-focus
@@ -214,7 +224,7 @@ export default function HeroFloatingObjects({
       const driftY = 10 + rand() * 8;
       const driftX = 20 + rand() * 6;
       const rotRange = -2 + rand() * 4; // ±2° rotation
-      const opacity = (opacityMultiplier + rand() * 0.04) * (isMobile ? 0.75 : 1.0); // Lower opacity on mobile
+      const opacity = (opacityMultiplier + rand() * 0.04) * (isMobile ? 0.55 : 1.0); // Lower opacity on mobile for atmospheric effect
 
       // Spec 3 & 4: Persistent survivor tag and exit vector direction
       const survivor = rand() < 0.3; // Stable ~30% survivor flag

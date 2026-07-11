@@ -104,9 +104,9 @@ export default function AboutSection({ isMobile = false }) {
         id="about"
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-120px" }}
+        viewport={{ once: true, margin: "-80px" }}
         variants={mobileContainerVariants}
-        className="relative w-full h-auto flex flex-col items-center px-6 py-20 pointer-events-auto select-none z-10 bg-transparent overflow-hidden"
+        className="relative w-full h-auto flex flex-col items-center px-5 py-14 pointer-events-auto select-none z-10 bg-transparent overflow-hidden"
       >
         {/* Floating background dots (optimized to 8 dots for mobile GPU) */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
@@ -119,7 +119,7 @@ export default function AboutSection({ isMobile = false }) {
                 top: `${dot.y}%`,
                 width: `${dot.size}px`,
                 height: `${dot.size}px`,
-                opacity: dot.opacity * 1.5, // Slightly boost opacity for mobile visibility
+                opacity: dot.opacity * 1.5,
                 color: dot.color,
                 '--dot-duration': `${dot.duration}s`,
                 '--dot-delay': `${dot.delay}s`,
@@ -129,7 +129,7 @@ export default function AboutSection({ isMobile = false }) {
           ))}
         </div>
 
-        <Container size="lg" className="relative z-10 flex flex-col gap-12 w-full text-left">
+        <Container size="lg" className="relative z-10 flex flex-col gap-8 w-full text-left">
           {/* Header & Narrative Block */}
           <motion.div variants={mobileItemVariants} className="w-full flex flex-col gap-4">
             <div>
@@ -141,7 +141,7 @@ export default function AboutSection({ isMobile = false }) {
               </h2>
             </div>
             
-            <div className="flex flex-col gap-4 text-sm text-[#eae3d2] font-sans leading-[1.75] font-light tv-about-text-shadow">
+            <div className="flex flex-col gap-4 text-[15px] text-[#eae3d2] font-sans leading-[1.85] font-light tv-about-text-shadow">
               <p>
                 TechnoVista is the flagship annual technology festival organized by VJ Data Questers, the official Data Science and Artificial Intelligence community of VNR VJIET. Designed as an immersive tech carnival, it brings together creative minds, developers, and data enthusiasts to push the boundaries of technology and intelligence.
               </p>
@@ -151,21 +151,97 @@ export default function AboutSection({ isMobile = false }) {
             </div>
           </motion.div>
 
-          {/* Brand Identity / Centerpiece (DQ Logo & Subtext) */}
+          {/* Horizontal Divider */}
+          <motion.div variants={mobileItemVariants}>
+            <div 
+              className="w-full h-px" 
+              style={{ 
+                background: 'linear-gradient(90deg, transparent 0%, rgba(243, 229, 202, 0.15) 20%, rgba(243, 229, 202, 0.15) 80%, transparent 100%)' 
+              }} 
+            />
+          </motion.div>
+
+          {/* Statistics Row — 3 Equal Columns */}
+          <motion.div variants={mobileItemVariants} className="w-full">
+            <div className="grid grid-cols-3 gap-0 w-full">
+              {/* Stat 1: Participants */}
+              <div className="flex flex-col items-center text-center py-2">
+                <span 
+                  className="text-3xl xs:text-4xl font-black font-heading tracking-tight leading-none mb-1.5"
+                  style={{
+                    backgroundImage: 'linear-gradient(135deg, #FFE899 0%, #F59E0B 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    display: 'inline-block',
+                    filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8))'
+                  }}
+                >
+                  <CountUp to={800} />+
+                </span>
+                <span className="text-[9px] font-mono tracking-widest text-text-secondary uppercase font-semibold block tv-about-text-shadow">
+                  Participants
+                </span>
+              </div>
+
+              {/* Vertical Divider */}
+              <div className="flex flex-col items-center text-center py-2 border-x" style={{ borderColor: 'rgba(243, 229, 202, 0.08)' }}>
+                {/* Stat 2: Signature Events */}
+                <span 
+                  className="text-3xl xs:text-4xl font-black font-heading tracking-tight leading-none mb-1.5"
+                  style={{
+                    backgroundImage: 'linear-gradient(135deg, #FFE899 0%, #F59E0B 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    display: 'inline-block',
+                    filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8))'
+                  }}
+                >
+                  <CountUp to={8} />
+                </span>
+                <span className="text-[9px] font-mono tracking-widest text-text-secondary uppercase font-semibold block tv-about-text-shadow">
+                  Events
+                </span>
+              </div>
+
+              {/* Stat 3: Participating Colleges */}
+              <div className="flex flex-col items-center text-center py-2">
+                <span 
+                  className="text-3xl xs:text-4xl font-black font-heading tracking-tight leading-none mb-1.5"
+                  style={{
+                    backgroundImage: 'linear-gradient(135deg, #FFE899 0%, #F59E0B 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    display: 'inline-block',
+                    filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8))'
+                  }}
+                >
+                  <CountUp to={15} />+
+                </span>
+                <span className="text-[9px] font-mono tracking-widest text-text-secondary uppercase font-semibold block tv-about-text-shadow">
+                  Colleges
+                </span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Brand Identity / DQ Card — Below Statistics */}
           <motion.div 
             variants={mobileItemVariants}
-            className="flex flex-col items-center text-center px-4 py-6 rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-sm"
+            className="flex flex-col items-center text-center px-6 py-8 rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-sm"
           >
             {/* Logo image floating with ambient glow */}
-            <div className="relative flex items-center justify-center w-16 h-16 mb-4 select-none">
+            <div className="relative flex items-center justify-center w-20 h-20 mb-4 select-none">
               <div 
-                className="absolute inset-0 rounded-full blur-[20px] pointer-events-none -z-10 animate-float" 
+                className="absolute inset-0 rounded-full blur-[25px] pointer-events-none -z-10 animate-float" 
                 style={{ background: 'radial-gradient(circle, rgba(232, 200, 138, 0.3) 0%, transparent 70%)' }} 
               />
               <img
                 src={clubLogo}
                 alt="VJ Data Questers Logo"
-                className="relative w-16 h-16 object-contain animate-float"
+                className="relative w-20 h-20 object-contain animate-float"
                 draggable={false}
               />
             </div>
@@ -177,83 +253,10 @@ export default function AboutSection({ isMobile = false }) {
             <span className="text-[9px] font-mono tracking-[0.2em] text-text-secondary uppercase font-semibold mb-3 block tv-about-text-shadow">
               Official Data Science &amp; AI Community
             </span>
-            <p className="text-xs text-text-muted font-sans leading-relaxed max-w-[280px] font-light tv-about-text-shadow">
+            <p className="text-xs text-text-muted font-sans leading-relaxed max-w-[300px] font-light tv-about-text-shadow">
               The official student community dedicated to fostering innovation in Data Science, Machine Learning, and Artificial Intelligence at VNR VJIET.
             </p>
           </motion.div>
-
-          {/* Stacked Premium Statistics Section */}
-          <div className="flex flex-col gap-10 w-full mt-2">
-            
-            {/* Stat 1: Participants */}
-            <motion.div variants={mobileItemVariants} className="flex flex-col items-center text-center">
-              <span 
-                className="text-5xl font-black font-heading tracking-tight leading-none mb-2"
-                style={{
-                  backgroundImage: 'linear-gradient(135deg, #FFE899 0%, #F59E0B 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                  display: 'inline-block',
-                  filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8))'
-                }}
-              >
-                <CountUp to={800} />+
-              </span>
-              <span className="text-[10px] font-mono tracking-widest text-text-secondary uppercase font-semibold mb-2 block tv-about-text-shadow">
-                Participants
-              </span>
-              <p className="text-xs text-text-muted font-sans leading-relaxed max-w-[240px] font-light tv-about-text-shadow">
-                Students from leading engineering colleges collaborating, learning, and competing together.
-              </p>
-            </motion.div>
-
-            {/* Stat 2: Signature Events */}
-            <motion.div variants={mobileItemVariants} className="flex flex-col items-center text-center">
-              <span 
-                className="text-5xl font-black font-heading tracking-tight leading-none mb-2"
-                style={{
-                  backgroundImage: 'linear-gradient(135deg, #FFE899 0%, #F59E0B 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                  display: 'inline-block',
-                  filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8))'
-                }}
-              >
-                <CountUp to={8} />
-              </span>
-              <span className="text-[10px] font-mono tracking-widest text-text-secondary uppercase font-semibold mb-2 block tv-about-text-shadow">
-                Signature Events
-              </span>
-              <p className="text-xs text-text-muted font-sans leading-relaxed max-w-[240px] font-light tv-about-text-shadow">
-                Competitions, AI Challenges, Hackathons, and Workshops.
-              </p>
-            </motion.div>
-
-            {/* Stat 3: Participating Colleges */}
-            <motion.div variants={mobileItemVariants} className="flex flex-col items-center text-center">
-              <span 
-                className="text-5xl font-black font-heading tracking-tight leading-none mb-2"
-                style={{
-                  backgroundImage: 'linear-gradient(135deg, #FFE899 0%, #F59E0B 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                  display: 'inline-block',
-                  filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8))'
-                }}
-              >
-                <CountUp to={15} />+
-              </span>
-              <span className="text-[10px] font-mono tracking-widest text-text-secondary uppercase font-semibold mb-2 block tv-about-text-shadow">
-                Participating Colleges
-              </span>
-              <p className="text-xs text-text-muted font-sans leading-relaxed max-w-[240px] font-light tv-about-text-shadow">
-                Bringing together students from leading engineering institutions.
-              </p>
-            </motion.div>
-          </div>
         </Container>
       </motion.div>
     );

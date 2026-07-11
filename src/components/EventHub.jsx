@@ -344,7 +344,7 @@ export default function EventHub() {
     <section 
       ref={sectionRef}
       id="events" 
-      className="relative py-32 sm:py-36 overflow-hidden select-none bg-transparent"
+      className="relative py-16 sm:py-24 lg:py-32 overflow-hidden select-none bg-transparent"
     >
       
       {/* Diffused emissive radial glow reflecting the active event's theme color — blended with warm canvas */}
@@ -358,7 +358,7 @@ export default function EventHub() {
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         
         {/* Section Heading with Brand Gold Styling */}
-        <div className="mb-20 text-center lg:text-left">
+        <div className="mb-10 sm:mb-14 lg:mb-20 text-center lg:text-left">
           <span className="font-mono text-xs uppercase tracking-widest text-[#F59E0B]">
             TACTICAL GRID DATABASE // DIRECTIVES
           </span>
@@ -575,14 +575,14 @@ export default function EventHub() {
             </div>
 
             {/* MOBILE & TABLET DIAL VIEW (Visible on viewports below lg, i.e., <1024px) */}
-            <div className="flex lg:hidden flex-col items-center justify-start h-[220px] xs:h-[260px] sm:h-[300px] w-full relative overflow-hidden pt-6">
+            <div className="flex lg:hidden flex-col items-center justify-start h-[180px] xs:h-[220px] sm:h-[260px] w-full relative overflow-hidden pt-4">
               
               {/* Dial centered horizontally at the top, rotated 90deg so the active sweep faces downwards */}
               <div 
                 className="absolute pointer-events-none select-none z-0 left-1/2 -translate-x-1/2
-                           w-[270px] h-[270px] top-[-175px]
-                           xs:w-[310px] xs:h-[310px] xs:top-[-200px]
-                           sm:w-[380px] sm:h-[380px] sm:top-[-240px]"
+                           w-[250px] h-[250px] top-[-165px]
+                           xs:w-[290px] xs:h-[290px] xs:top-[-190px]
+                           sm:w-[360px] sm:h-[360px] sm:top-[-230px]"
                 style={{
                   transform: 'rotate(90deg)', // Rotates the active right side to face bottom
                 }}
@@ -739,7 +739,7 @@ export default function EventHub() {
               </div>
 
               {/* Horizontal Menu translating active item to center - decreased margin top */}
-              <div className="relative h-[80px] w-full overflow-hidden z-10 mt-[50px] xs:mt-[60px] sm:mt-[80px]">
+              <div className="relative h-[80px] w-full overflow-hidden z-10 mt-[40px] xs:mt-[50px] sm:mt-[70px]">
                 <div 
                   className="absolute left-1/2 top-0 bottom-0 flex flex-row items-center select-none w-max"
                   style={{
@@ -790,7 +790,7 @@ export default function EventHub() {
           </div>
 
           {/* Right Column: Smaller Preview Card positioned below dial on mobile, right on desktop */}
-          <div className="col-span-1 lg:col-span-6 flex justify-center lg:justify-end w-full lg:pr-12 z-10 mt-8 lg:mt-0">
+          <div className="col-span-1 lg:col-span-6 flex justify-center lg:justify-end w-full lg:pr-12 z-10 mt-4 lg:mt-0">
             <Link 
               to={`/events/${activeEvent.id}`}
               onMouseEnter={() => setIsCardHovered(true)}
