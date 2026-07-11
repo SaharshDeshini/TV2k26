@@ -143,10 +143,7 @@ export default function AboutSection({ isMobile = false }) {
             
             <div className="flex flex-col gap-4 text-[15px] text-[#eae3d2] font-sans leading-[1.85] font-light tv-about-text-shadow">
               <p>
-                TechnoVista is the flagship annual technology festival organized by VJ Data Questers, the official Data Science and Artificial Intelligence community of VNR VJIET. Designed as an immersive tech carnival, it brings together creative minds, developers, and data enthusiasts to push the boundaries of technology and intelligence.
-              </p>
-              <p>
-                Through practical competitions, hands-on hackathons, and immersive technical experiences, TechnoVista serves as a catalyst for innovation. It is a space where students transform theoretical concepts into real-world applications, collaborate on new ideas, and shape the future of digital engineering.
+                TechnoVista is the flagship annual technology festival organized by VJ Data Questers, the official Data Science and AI community of VNR VJIET. Designed as an immersive tech carnival, it serves as a catalyst for innovation, bringing creative minds together to compete, collaborate, and shape the future of digital engineering.
               </p>
             </div>
           </motion.div>
@@ -230,13 +227,20 @@ export default function AboutSection({ isMobile = false }) {
           {/* Brand Identity / DQ Card — Below Statistics */}
           <motion.div 
             variants={mobileItemVariants}
-            className="flex flex-col items-center text-center px-6 py-8 rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-sm"
+            className="flex flex-col items-center text-center px-6 py-8 rounded-2xl border w-full"
+            style={{
+              background: 'linear-gradient(135deg, rgba(255, 201, 88, 0.02) 0%, rgba(138, 45, 36, 0.04) 100%)',
+              borderColor: 'rgba(255, 201, 88, 0.15)', // Premium amber-gold border
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+              boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 201, 88, 0.05)',
+            }}
           >
             {/* Logo image floating with ambient glow */}
             <div className="relative flex items-center justify-center w-20 h-20 mb-4 select-none">
               <div 
                 className="absolute inset-0 rounded-full blur-[25px] pointer-events-none -z-10 animate-float" 
-                style={{ background: 'radial-gradient(circle, rgba(232, 200, 138, 0.3) 0%, transparent 70%)' }} 
+                style={{ background: 'radial-gradient(circle, rgba(255, 201, 88, 0.25) 0%, transparent 70%)' }} 
               />
               <img
                 src={clubLogo}
@@ -246,11 +250,23 @@ export default function AboutSection({ isMobile = false }) {
               />
             </div>
 
-            <h3 className="text-xl font-bold font-heading text-text-primary mb-1 tv-about-text-shadow">
+            <h3 
+              className="text-xl font-extrabold font-heading mb-1 tv-about-text-shadow"
+              style={{
+                backgroundImage: 'linear-gradient(135deg, #FFE899 0%, #F59E0B 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                display: 'inline-block',
+              }}
+            >
               VJ Data Questers
             </h3>
 
-            <span className="text-[9px] font-mono tracking-[0.2em] text-text-secondary uppercase font-semibold mb-3 block tv-about-text-shadow">
+            <span 
+              className="text-[9px] font-mono tracking-[0.2em] uppercase font-semibold mb-3 block tv-about-text-shadow"
+              style={{ color: 'rgba(255, 201, 88, 0.75)' }}
+            >
               Official Data Science &amp; AI Community
             </span>
             <p className="text-xs text-text-muted font-sans leading-relaxed max-w-[300px] font-light tv-about-text-shadow">

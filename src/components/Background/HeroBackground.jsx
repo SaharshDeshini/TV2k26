@@ -11,7 +11,7 @@ import { GOLDEN_EASE } from '../../animations/variants';
  * No cool tones (blue, purple, navy, indigo) anywhere.
  * Preserves visual depth through subtle overlays, glows, and atmospheric haze.
  */
-export default function HeroBackground({ delay = 0.3, accent, animateState = 'hidden' }) {
+export default function HeroBackground({ isMobile = false, delay = 0.3, accent, animateState = 'hidden' }) {
   const parentVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -106,14 +106,16 @@ export default function HeroBackground({ delay = 0.3, accent, animateState = 'hi
       </div>
 
       {/* 2. Subtle Noise Texture Overlay (film grain for depth) */}
-      <div className="absolute inset-0 opacity-[0.025] pointer-events-none mix-blend-overlay z-10">
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-          <filter id="heroNoiseFilter">
-            <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" stitchTiles="stitch" />
-          </filter>
-          <rect width="100%" height="100%" filter="url(#heroNoiseFilter)" />
-        </svg>
-      </div>
+      {!isMobile && (
+        <div className="absolute inset-0 opacity-[0.025] pointer-events-none mix-blend-overlay z-10">
+          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <filter id="heroNoiseFilter">
+              <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" stitchTiles="stitch" />
+            </filter>
+            <rect width="100%" height="100%" filter="url(#heroNoiseFilter)" />
+          </svg>
+        </div>
+      )}
 
       {/* 3. Grid Blueprint overlay (warm-tinted lines) */}
       <div className="absolute inset-0 grid-overlay opacity-[0.05] pointer-events-none z-10" />

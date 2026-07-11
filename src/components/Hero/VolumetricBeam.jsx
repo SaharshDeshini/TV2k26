@@ -51,7 +51,7 @@ export default function VolumetricBeam({ animateState = 'hidden', isMobile = fal
         <motion.div
           className={
             isMobile
-              ? "absolute top-[-15vh] left-1/2 w-[140vw] h-[140vh] pointer-events-none"
+              ? "absolute top-[-15vh] left-1/2 w-[170vw] h-[140vh] pointer-events-none"
               : "absolute top-[-15vh] left-1/2 w-[45vw] md:w-[60vw] lg:w-[70vw] h-[150vh] pointer-events-none"
           }
           style={{
@@ -79,7 +79,7 @@ export default function VolumetricBeam({ animateState = 'hidden', isMobile = fal
                 : "w-full h-full opacity-[0.22] md:opacity-[0.26] lg:opacity-[0.32]"
             }
             style={{
-              filter: isMobile ? 'blur(26px)' : 'blur(20px)',
+              filter: isMobile ? 'blur(16px)' : 'blur(20px)',
             }}
           >
             <defs>
@@ -111,7 +111,7 @@ export default function VolumetricBeam({ animateState = 'hidden', isMobile = fal
 
             {/* Narrower tapered spotlight path: reduced angle (widened on mobile) */}
             <path
-              d={isMobile ? "M 25 0 L 75 0 L 100 100 L 0 100 Z" : "M 46 0 L 54 0 L 86 100 L 14 100 Z"}
+              d={isMobile ? "M 46 0 L 54 0 L 130 100 L -30 100 Z" : "M 46 0 L 54 0 L 86 100 L 14 100 Z"}
               fill="url(#beamHorizontal)"
               mask="url(#beamMask)"
             />

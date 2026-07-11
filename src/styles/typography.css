@@ -24,7 +24,7 @@
 
 @media (max-width: 767px) {
   .editorial-title-lg {
-    font-size: clamp(1.8rem, 9.2vw, 3.2rem);
+    font-size: clamp(2.5rem, 12vw, 4.0rem);
     line-height: 1.05;
     letter-spacing: -0.02em;
   }

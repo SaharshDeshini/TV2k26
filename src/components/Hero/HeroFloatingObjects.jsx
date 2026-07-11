@@ -159,34 +159,16 @@ export default function HeroFloatingObjects({
       let rawY = (anchor?.y ?? 50) + (rand() * 4 - 2);
 
       if (isMobile) {
-        // Enforce X safe zone (12% to 88% is unsafe for text — keep icons at edges)
-        if (rawX >= 12 && rawX <= 88) {
-          // Push to nearest safe side
-          rawX = rawX < 50 ? 6 : 94;
-        }
-        // Move large icons even closer to the edges
-        if (sizeClass === 'large') {
-          rawX = rawX < 50 ? 4 : 96;
-          // Avoid placing large icons behind the content area (y: 25 to 75)
-          if (rawY >= 25 && rawY <= 75) {
-            rawY = rawY < 50 ? 15 : 82;
-          }
-        }
-        // Protect countdown area (top center, y < 18%)
-        if (rawX > 15 && rawX < 85 && rawY < 18) {
-          rawY = rawY < 9 ? 5 : 20;
-          rawX = rawX < 50 ? 6 : 94;
-        }
-        // Protect scroll indicator area (bottom center, y > 82%)
-        if (rawX > 15 && rawX < 85 && rawY > 82) {
-          rawY = rawY > 90 ? 95 : 80;
-          rawX = rawX < 50 ? 6 : 94;
-        }
-        // Avoid top (y < 10) and bottom (y > 82) center overlaps
-        if (rawX > 20 && rawX < 80) {
-          if (rawY < 10) rawY = 12;
-          if (rawY > 82) rawY = 80;
-        }
+        // Position the 4 mobile icons strictly in the 4 corners to frame the screen without overlapping text
+        const corners = [
+          { x: 6, y: 12 },   // Top-Left
+          { x: 94, y: 12 },  // Top-Right
+          { x: 6, y: 84 },   // Bottom-Left
+          { x: 94, y: 84 },  // Bottom-Right
+        ];
+        const corner = corners[i % 4];
+        rawX = corner.x;
+        rawY = corner.y;
       }
 
       const pos = {
@@ -224,7 +206,7 @@ export default function HeroFloatingObjects({
       const driftY = 10 + rand() * 8;
       const driftX = 20 + rand() * 6;
       const rotRange = -2 + rand() * 4; // ±2° rotation
-      const opacity = (opacityMultiplier + rand() * 0.04) * (isMobile ? 0.55 : 1.0); // Lower opacity on mobile for atmospheric effect
+      const opacity = (opacityMultiplier + rand() * 0.04) * (isMobile ? 0.35 : 1.0); // Lower opacity on mobile for atmospheric effect
 
       // Spec 3 & 4: Persistent survivor tag and exit vector direction
       const survivor = rand() < 0.3; // Stable ~30% survivor flag

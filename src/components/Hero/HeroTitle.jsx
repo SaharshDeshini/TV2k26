@@ -57,11 +57,11 @@ export default function HeroTitle({
   };
 
   const letterVariants = {
-    hidden: { opacity: 0, y: 30, filter: 'blur(6px)' },
+    hidden: { opacity: 0, y: 30, filter: 'none' },
     visible: {
       opacity: 1,
       y: 0,
-      filter: 'blur(0px)',
+      filter: 'none',
       transition: { duration: 0.8, ease: GOLDEN_EASE }
     }
   };
@@ -128,7 +128,7 @@ export default function HeroTitle({
           animate={animateState}
         >
           <motion.h1
-            className={`editorial-title-lg tv-hero-title max-w-5xl select-none text-center ${isMobile ? 'mb-5' : 'mb-6'}`}
+            className={`editorial-title-lg tv-hero-title max-w-5xl select-none text-center ${isMobile ? 'mb-8' : 'mb-6'}`}
             style={{
               fontWeight: 800, // ExtraBold weight
             }}
@@ -176,10 +176,10 @@ export default function HeroTitle({
             duration: isTransitioning ? 0.7 : 1.0,
             ease: 'easeInOut'
           }}
-          className={`text-[11.5px] sm:text-xs font-sans tracking-widest leading-relaxed uppercase max-w-xl select-none font-normal px-6 text-center ${isMobile ? 'mb-8' : 'mb-10'}`}
+          className={`text-[11px] sm:text-xs font-sans tracking-widest leading-relaxed uppercase max-w-xl select-none font-normal px-6 text-center ${isMobile ? 'mb-12' : 'mb-10'}`}
           style={{ color: 'rgba(255, 255, 255, 0.45)' }}
         >
-          A High-Fidelity National Level Tech Symposium hosted by Department of Information Technology at VNR VJIET.
+          A High-Fidelity National Level Tech Symposium hosted by Department of Data Science at VNR VJIET.
         </motion.p>
       </motion.div>
 
@@ -255,62 +255,64 @@ export default function HeroTitle({
           </motion.a>
 
           {/* Secondary CTA — Conclave Info (Translucent Glass Panel treatment) */}
-          <motion.a
-            href="#about"
-            onClick={handleExploreClick}
-            whileHover="hover"
-            whileTap={{ scale: 0.97, y: 0 }}
-            className={`group relative border font-heading font-semibold uppercase text-[11px] sm:text-xs rounded-full cursor-pointer overflow-hidden text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20 focus-visible:ring-offset-2 focus-visible:ring-offset-black ${isMobile ? 'w-full px-6 py-4 min-h-[50px]' : 'px-8.5 py-3.5'}`}
-            style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.03)', // Translucent glass
-              backdropFilter: 'blur(16px)',
-              WebkitBackdropFilter: 'blur(16px)',
-              borderColor: 'rgba(255, 248, 235, 0.08)', // Faint warm inner border
-              color: '#ffffff', // White text
-              letterSpacing: '0.16em', // Base spacing
-              boxShadow: '0 4px 16px rgba(0, 0, 0, 0.20), inset 0 1px 1px rgba(255, 255, 255, 0.05)',
-              transition: 'background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, color 0.4s ease',
-            }}
-            variants={{
-              hover: {
-                y: -2, // Lift by exactly 2px
-                borderColor: 'rgba(243, 229, 202, 0.25)', // Subtle warm border highlight
-                backgroundColor: 'rgba(255, 255, 255, 0.08)', // Brighter glass
-                color: '#ffffff',
-                boxShadow: '0 4px 12px rgba(243, 229, 202, 0.05), 0 8px 24px rgba(0, 0, 0, 0.30), inset 0 1px 1px rgba(255, 255, 255, 0.12)',
-              }
-            }}
-          >
-            <span className="relative z-10 flex items-center justify-center gap-2">
-              Conclave Info
-              <svg
-                className="w-3.5 h-3.5 transform group-hover:translate-x-[5.5px] transition-transform duration-300"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-              </svg>
-            </span>
-            
-            {/* Beam ambient reflection glow */}
-            <div className="tv-hero-btn-glow" />
-
-            {/* Amber Shimmer light sweep */}
-            <motion.div
-              variants={{
-                hover: { x: '150%' }
-              }}
-              initial={{ x: '-150%', skewX: -25 }}
-              transition={{ duration: 1.1, ease: [0.19, 1, 0.22, 1] }}
-              className="absolute inset-0 pointer-events-none"
+          {!isMobile && (
+            <motion.a
+              href="#about"
+              onClick={handleExploreClick}
+              whileHover="hover"
+              whileTap={{ scale: 0.97, y: 0 }}
+              className={`group relative border font-heading font-semibold uppercase text-[11px] sm:text-xs rounded-full cursor-pointer overflow-hidden text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20 focus-visible:ring-offset-2 focus-visible:ring-offset-black ${isMobile ? 'w-full px-6 py-4 min-h-[50px]' : 'px-8.5 py-3.5'}`}
               style={{
-                background: 'linear-gradient(90deg, transparent 0%, rgba(255, 201, 88, 0.15) 50%, transparent 100%)',
+                backgroundColor: 'rgba(255, 255, 255, 0.03)', // Translucent glass
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                borderColor: 'rgba(255, 248, 235, 0.08)', // Faint warm inner border
+                color: '#ffffff', // White text
+                letterSpacing: '0.16em', // Base spacing
+                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.20), inset 0 1px 1px rgba(255, 255, 255, 0.05)',
+                transition: 'background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, color 0.4s ease',
               }}
-            />
-          </motion.a>
+              variants={{
+                hover: {
+                  y: -2, // Lift by exactly 2px
+                  borderColor: 'rgba(243, 229, 202, 0.25)', // Subtle warm border highlight
+                  backgroundColor: 'rgba(255, 255, 255, 0.08)', // Brighter glass
+                  color: '#ffffff',
+                  boxShadow: '0 4px 12px rgba(243, 229, 202, 0.05), 0 8px 24px rgba(0, 0, 0, 0.30), inset 0 1px 1px rgba(255, 255, 255, 0.12)',
+                }
+              }}
+            >
+              <span className="relative z-10 flex items-center justify-center gap-2">
+                Conclave Info
+                <svg
+                  className="w-3.5 h-3.5 transform group-hover:translate-x-[5.5px] transition-transform duration-300"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </span>
+              
+              {/* Beam ambient reflection glow */}
+              <div className="tv-hero-btn-glow" />
+
+              {/* Amber Shimmer light sweep */}
+              <motion.div
+                variants={{
+                  hover: { x: '150%' }
+                }}
+                initial={{ x: '-150%', skewX: -25 }}
+                transition={{ duration: 1.1, ease: [0.19, 1, 0.22, 1] }}
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background: 'linear-gradient(90deg, transparent 0%, rgba(255, 201, 88, 0.15) 50%, transparent 100%)',
+                }}
+              />
+            </motion.a>
+          )}
         </motion.div>
       </motion.div>
     </div>

@@ -205,7 +205,7 @@ export default function HeroSection() {
           ].filter(Boolean).join(' ')}
         >
           <motion.div style={{ opacity: bgOpacity }} className="absolute inset-0 -z-10">
-            <HeroBackground delay={0.3} accent={accent} animateState={animateState} />
+            <HeroBackground isMobile={isMobile} delay={0.1} accent={accent} animateState={animateState} />
             <VolumetricBeam isMobile={isMobile} animateState={isOpen ? 'visible' : 'hidden'} />
           </motion.div>
 
@@ -216,25 +216,24 @@ export default function HeroSection() {
               isTouch={isTouch}
               viewportTier={viewportTier}
               accent={accent}
-              delay={0.8}
+              delay={3.4}
               animateState={isOpen ? 'visible' : 'hidden'}
             />
           )}
 
           <div className="tv-hero-content">
-            {!isMobile && (
-              <motion.div style={{ y: logosY, opacity: logosOpacity }} className="absolute inset-0 z-30 pointer-events-none">
-                <HeroLogos
-                  delay={0.1}
-                  accent={accent}
-                  animateState={isOpen ? 'visible' : 'hidden'}
-                  mouseX={mx}
-                  mouseY={my}
-                  isTouch={isTouch}
-                  isTransitioning={isTransitioning}
-                />
-              </motion.div>
-            )}
+            <motion.div style={{ y: logosY, opacity: logosOpacity }} className="absolute inset-0 z-30 pointer-events-none">
+              <HeroLogos
+                isMobile={isMobile}
+                delay={3.4}
+                accent={accent}
+                animateState={isOpen ? 'visible' : 'hidden'}
+                mouseX={mx}
+                mouseY={my}
+                isTouch={isTouch}
+                isTransitioning={isTransitioning}
+              />
+            </motion.div>
 
             <motion.div style={{ y: glowY, scale: glowScale, opacity: glowOpacity }} className="absolute inset-0 pointer-events-none">
               <HeroAmbientGlow
@@ -243,7 +242,7 @@ export default function HeroSection() {
                 mouseY={my}
                 isTouch={isTouch}
                 isMobile={isMobile}
-                delay={0.1}
+                delay={0.2}
                 animateState={isOpen ? 'visible' : 'hidden'}
               />
             </motion.div>
@@ -255,7 +254,7 @@ export default function HeroSection() {
               isMobile={isMobile}
               viewportTier={viewportTier}
               accent={accent}
-              delay={0.2}
+              delay={3.0}
               animateState={isOpen ? 'visible' : 'hidden'}
             />
 
@@ -266,18 +265,19 @@ export default function HeroSection() {
               isMobile={isMobile}
               viewportTier={viewportTier}
               accent={accent}
-              delay={0.2}
+              delay={3.2}
               animateState={isOpen ? 'visible' : 'hidden'}
             />
 
             <motion.div style={{ y: featY, scale: featScale, opacity: featOpacity }} className="absolute inset-0 pointer-events-none">
               <HeroFeaturedObject
+                isMobile={isMobile}
                 themeName={themeName}
                 accent={accent}
                 mouseX={mx}
                 mouseY={my}
                 isTouch={isTouch}
-                delay={0.2}
+                delay={2.8}
                 animateState={isOpen ? 'visible' : 'hidden'}
               />
             </motion.div>
@@ -296,7 +296,7 @@ export default function HeroSection() {
                   startDate={startDate}
                   countdownVisible={countdownVisible}
                   accent={accent}
-                  delay={0.1}
+                  delay={0.6}
                   animateState={isOpen ? 'visible' : 'hidden'}
                   isTransitioning={isTransitioning}
                 />
@@ -305,9 +305,9 @@ export default function HeroSection() {
                   isMobile={isMobile}
                   themeName={themeName}
                   accent={accent}
-                  delayTitle={0.2}
-                  delayText={0.45}
-                  delayButtons={0.7}
+                  delayTitle={1.0}
+                  delayText={1.8}
+                  delayButtons={2.4}
                   animateState={isOpen ? 'visible' : 'hidden'}
                   isTransitioning={isTransitioning}
                 />

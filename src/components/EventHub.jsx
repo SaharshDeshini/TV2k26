@@ -362,7 +362,7 @@ export default function EventHub() {
           <span className="font-mono text-xs uppercase tracking-widest text-[#F59E0B]">
             TACTICAL GRID DATABASE // DIRECTIVES
           </span>
-          <h2 className="font-heading text-6xl md:text-8xl font-black tracking-tight text-gradient-silver uppercase mt-1">
+          <h2 className="font-heading text-4xl xs:text-5xl sm:text-6xl md:text-8xl font-black tracking-tight text-gradient-silver uppercase mt-1">
             MISSIONS HUB
           </h2>
           <div className="w-16 h-1 bg-[#F59E0B] mt-4 shadow-[0_0_8px_#F59E0B] mx-auto lg:mx-0" />

@@ -18,6 +18,7 @@ const FEATURED_MAP = {
  * Changes based on active day theme. Stronger glow + parallax.
  */
 export default function HeroFeaturedObject({
+  isMobile = false,
   themeName,
   accent,
   mouseX = 0,
@@ -53,9 +54,13 @@ export default function HeroFeaturedObject({
       animate={animateState}
       className="absolute z-[2] pointer-events-none"
       style={{
-        right: '14%',
-        top: '40%',
-        transform: `translate(${px}px, ${py}px) rotate(${rotMouse}deg) scale(${scaleMouse})`,
+        left: isMobile ? '50%' : 'auto',
+        right: isMobile ? 'auto' : '14%',
+        top: isMobile ? '81%' : '40%',
+        x: isMobile ? '-50%' : px,
+        y: isMobile ? '-50%' : py,
+        rotate: isMobile ? 0 : rotMouse,
+        scale: isMobile ? 1 : scaleMouse,
         willChange: 'transform',
       }}
     >
@@ -81,8 +86,8 @@ export default function HeroFeaturedObject({
           }}
           className="select-none"
           style={{
-            width: '80px',
-            height: '80px',
+            width: isMobile ? '55px' : '80px',
+            height: isMobile ? '55px' : '80px',
             filter: `
               drop-shadow(${shadowX}px ${shadowY}px 12px rgba(0,0,0,0.06))
               drop-shadow(0 0 28px ${accent}45)
