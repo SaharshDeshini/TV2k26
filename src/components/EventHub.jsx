@@ -315,11 +315,11 @@ export default function EventHub() {
       className="relative py-32 sm:py-36 overflow-hidden select-none bg-transparent"
     >
       
-      {/* Diffused emissive radial glow reflecting the active event's theme color */}
+      {/* Diffused emissive radial glow reflecting the active event's theme color — blended with warm canvas */}
       <div 
-        className="absolute -left-[200px] top-1/2 -translate-y-1/2 w-[400px] h-[600px] rounded-full bg-[radial-gradient(circle_at_left,_var(--tw-gradient-stops))] from-orange-500/10 via-purple-500/5 to-transparent blur-3xl pointer-events-none transition-all duration-1000"
+        className="absolute -left-[200px] top-1/2 -translate-y-1/2 w-[400px] h-[600px] rounded-full pointer-events-none transition-all duration-1000"
         style={{
-          backgroundImage: `radial-gradient(circle at left, ${activeEvent.accentColor}26, rgba(0, 0, 0, 0) 100%)`
+          backgroundImage: `radial-gradient(circle at left, ${activeEvent.accentColor}1A, rgba(23, 7, 9, 0) 100%)`
         }}
       />
       

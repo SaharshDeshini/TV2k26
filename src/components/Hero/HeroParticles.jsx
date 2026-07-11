@@ -70,17 +70,22 @@ export default function HeroParticles({
         y: rand() * 2.0 - 1.8, // range [-1.8, 0.2] (mostly upwards)
       };
 
+      // Warm floating palette: Off-White, Soft Gold, Amber, Burgundy Accent
       const roll = rand();
-      let color = 'rgba(250, 246, 233, 0.65)';
-      let glow = 'rgba(250, 246, 233, 0.25)';
-      if (roll < 0.15) {
-        // Muted orange (15%)
-        color = 'rgba(255, 130, 45, 0.55)';
-        glow = 'rgba(255, 130, 45, 0.25)';
-      } else if (roll < 0.20) {
-        // Muted red (5%)
-        color = 'rgba(220, 55, 55, 0.55)';
-        glow = 'rgba(220, 55, 55, 0.25)';
+      let color = 'rgba(245, 235, 221, 0.50)';   // Warm Off-White (default)
+      let glow = 'rgba(245, 235, 221, 0.20)';
+      if (roll < 0.20) {
+        // Soft Gold (20%)
+        color = 'rgba(255, 213, 145, 0.45)';
+        glow = 'rgba(255, 213, 145, 0.20)';
+      } else if (roll < 0.32) {
+        // Amber (12%)
+        color = 'rgba(200, 120, 50, 0.40)';
+        glow = 'rgba(200, 120, 50, 0.18)';
+      } else if (roll < 0.38) {
+        // Burgundy Accent (6%)
+        color = 'rgba(138, 45, 36, 0.40)';
+        glow = 'rgba(138, 45, 36, 0.18)';
       }
 
       return {

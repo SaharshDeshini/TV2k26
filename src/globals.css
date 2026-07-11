@@ -43,7 +43,7 @@
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #000000;
+  background: #170709;
 }
 ::-webkit-scrollbar-thumb {
   background: #d9040b25;
@@ -54,7 +54,7 @@
 }
 
 html, body {
-  background-color: #000000;
+  background-color: #170709;
   color: #E2E8F0;
   font-family: 'Switzer', sans-serif;
   scroll-behavior: smooth;
@@ -133,7 +133,7 @@ a:focus-visible,
 }
 
 .text-glow-purple {
-  text-shadow: 0 0 8px rgba(123, 31, 162, 0.8), 0 0 20px rgba(123, 31, 162, 0.4);
+  text-shadow: 0 0 8px rgba(138, 45, 36, 0.8), 0 0 20px rgba(138, 45, 36, 0.4);
 }
 
 /* Rotating animations for Arc Reactor */
@@ -236,8 +236,8 @@ a:focus-visible,
 }
 
 .arc-reactor-glow {
-  color: #00E5FF;
-  text-shadow: 0 0 8px rgba(0, 229, 255, 0.85), 0 0 20px rgba(0, 229, 255, 0.45);
+  color: #FFD591;
+  text-shadow: 0 0 8px rgba(255, 213, 145, 0.85), 0 0 20px rgba(255, 213, 145, 0.45);
 }
 
 @keyframes metallic-sweep {

@@ -65,33 +65,19 @@ export default function Home() {
     <AppProvider>
       <FestivalProvider>
         <SmoothScroll>
-          <div className="relative min-h-screen bg-black">
+          <div className="relative min-h-screen bg-transparent">
             {/* Doctor Strange spark mouse trails */}
             <SparksEffect />
             
-            {/* Solid black background */}
+            {/* Global fixed gradient background — the ONLY background source */}
             <SketchfabBackground />
 
             <div className="relative z-10">
               <main>
                 {/* Main content - only render when loading finishes */}
                 {!isLoading && (
-                  <div 
-                    className="bg-[#000000] relative z-10 border-t border-white/5 shadow-[0_-20px_50px_rgba(0,0,0,0.65)]"
-                    style={{
-                      backgroundImage: `
-                        radial-gradient(circle at 15% 20%, rgba(200, 0, 0, 0.2) 0%, transparent 45%),
-                        radial-gradient(circle at 85% 38%, rgba(217, 4, 11, 0.14) 0%, transparent 45%),
-                        radial-gradient(circle at 15% 58%, rgba(147, 51, 234, 0.16) 0%, transparent 45%),
-                        radial-gradient(circle at 85% 78%, rgba(0, 180, 255, 0.15) 0%, transparent 45%),
-                        radial-gradient(circle at 50% 95%, rgba(0, 110, 255, 0.14) 0%, transparent 45%)
-                      `,
-                      backgroundAttachment: "fixed",
-                      backgroundPosition: "center",
-                      backgroundSize: "cover"
-                    }}
-                  >
-                    {/* Relative container to keep content above background glows */}
+                  <div className="relative z-10">
+                    {/* Content above global gradient — no section-specific backgrounds */}
                     <div className="relative z-10">
                       <HeroSection />
                       <EventHub />

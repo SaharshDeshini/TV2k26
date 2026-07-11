@@ -62,11 +62,11 @@ export default function AboutSection({ isMobile = false }) {
       const dx2 = rand() * 60 - 30;
       const dy2 = rand() * 60 - 30;
       const roll = rand();
-      let color = 'rgba(255, 255, 255, 0.4)';
+      let color = 'rgba(245, 235, 221, 0.4)'; // Warm Off-White
       if (roll < 0.12) {
-        color = 'rgba(217, 4, 11, 0.4)';
+        color = 'rgba(200, 120, 50, 0.4)'; // Amber
       } else if (roll < 0.16) {
-        color = 'rgba(133, 3, 7, 0.4)';
+        color = 'rgba(138, 45, 36, 0.4)'; // Burgundy Accent
       }
       return { id: `about-dot-${i}`, size, x, y, opacity: dotOpacity, duration, delay, dx1, dy1, dx2, dy2, color };
     });
@@ -79,7 +79,7 @@ export default function AboutSection({ isMobile = false }) {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-80px" }}
-        className="relative w-full h-auto flex flex-col items-center px-6 py-10 pointer-events-auto select-none z-10 bg-background border-t border-neutral-200/10 dark:border-neutral-800/10"
+        className="relative w-full h-auto flex flex-col items-center px-6 py-10 pointer-events-auto select-none z-10 bg-transparent border-t border-neutral-200/10 dark:border-neutral-800/10"
       >
         <Container size="lg" className="flex flex-col gap-6 w-full text-left">
           {/* Header & Simplified Narrative */}

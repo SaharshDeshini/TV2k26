@@ -10,11 +10,11 @@
   --accent: var(--accent-day1);
   --accent-glow: rgba(217, 4, 11, 0.15);
 
-  /* Global Design Tokens */
-  --bg: #000000;           /* Pure Black */
-  --bg-secondary: #050505; /* Near Black */
-  --surface: #121212;      /* Dark Surface */
-  --surface-elevated: #1c1c1c; /* Elevated Surface */
+  /* Global Design Tokens — Burgundy Palette */
+  --bg: #170709;           /* Dark Burgundy */
+  --bg-secondary: #1D080B; /* Near Burgundy */
+  --surface: #2A0A0F;      /* Deep Maroon Surface */
+  --surface-elevated: #3B0E12; /* Elevated Maroon Surface */
   
   --text-primary: #ffffff;
   --text-secondary: #94a3b8;

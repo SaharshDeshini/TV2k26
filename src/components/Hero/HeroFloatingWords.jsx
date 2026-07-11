@@ -97,7 +97,7 @@ export default function HeroFloatingWords({
       };
 
       const fontSize = 10 + rand() * 4; // 10–14px
-      const opacity = 0.14 + rand() * 0.08; // Base: 14%–22% atmospheric opacity (reduced default opacity)
+      const opacity = 0.10 + rand() * 0.06; // Base: 10%–16% atmospheric opacity (subtle warm tint)
       const depth = rand(); // 0 to 1 normalized depth
       const floatDuration = 12 + rand() * 8; // 12–20 seconds
       const floatDelay = rand() * 5;
@@ -229,12 +229,12 @@ function FloatingWordItem({
             className="font-heading font-medium select-none whitespace-nowrap"
             style={{
               fontSize: `${w.fontSize}px`,
-              color: '#E5E5EA', // Off-white for clean, bright visibility
+              color: '#E8D5C0', // Warm off-white for cohesive warm palette
               letterSpacing: '12px',
-              opacity: hovered ? 0.90 : w.opacity, // Dynamic opacity boost on hover
-              textShadow: hovered ? '0 0 8px rgba(255, 255, 255, 0.4)' : 'none', // Subtle glow shadow
+              opacity: hovered ? 0.85 : w.opacity, // Dynamic opacity boost on hover
+              textShadow: hovered ? '0 0 8px rgba(255, 213, 145, 0.35)' : 'none', // Warm amber glow
               textDecoration: hovered ? 'underline' : 'none', // Subtle text decoration
-              textDecorationColor: 'rgba(255, 255, 255, 0.25)',
+              textDecorationColor: 'rgba(255, 213, 145, 0.25)',
               textUnderlineOffset: '4px',
               transition: 'opacity 0.3s ease, text-shadow 0.3s ease, text-decoration 0.3s ease',
             }}
