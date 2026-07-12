@@ -80,14 +80,14 @@ export default function Intro() {
       {isLoading ? (
         <LandingIntro onComplete={handleIntroComplete} />
       ) : (
-        <div className="relative min-h-screen w-screen bg-transparent overflow-y-auto lg:overflow-hidden flex flex-col justify-center select-none py-8 lg:py-0">
+        <div className="relative h-[100svh] md:min-h-screen md:h-auto w-screen bg-transparent overflow-hidden md:overflow-y-auto lg:overflow-hidden flex flex-col justify-center select-none py-0 md:py-8 lg:py-0">
           {/* Doctor Strange spark mouse trails */}
           <SparksEffect />
           
           {/* Solid black background */}
           <SketchfabBackground />
 
-          <main className="relative z-10 flex flex-col justify-center w-full min-h-full lg:h-full">
+          <main className="relative z-10 flex flex-col justify-center w-full h-full md:min-h-full lg:h-full">
             <OpeningPage onEnter={handleEnter} isEntered={stage !== "portal"} />
           </main>
 
