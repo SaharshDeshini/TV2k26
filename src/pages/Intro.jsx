@@ -106,7 +106,12 @@ export default function Intro() {
 
           {/* Screen Transition Animation Stages */}
           {(stage === "transition" || stage === "dissolve") && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black flex-col pointer-events-none">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black flex-col pointer-events-none"
+            >
               <div className="flex items-center justify-center font-boska font-black text-4xl sm:text-6xl md:text-8xl tracking-widest uppercase">
                 {word.split("").map((letter, idx) => (
                   <motion.span
@@ -130,7 +135,7 @@ export default function Intro() {
                   </motion.span>
                 ))}
               </div>
-            </div>
+            </motion.div>
           )}
         </motion.div>
       )}
