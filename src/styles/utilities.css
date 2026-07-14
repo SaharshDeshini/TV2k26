@@ -111,9 +111,9 @@
 /* --- Cinematic Reveal & Spotlight Entrance CSS --- */
 
 :root {
-  --tv-void: #170709; /* dark burgundy */
-  --tv-void-deep: #170709; /* dark burgundy */
-  --tv-mist-deep: #1D080B; /* warm burgundy mist */
+  --tv-void: #21090c; /* dark burgundy */
+  --tv-void-deep: #21090c; /* dark burgundy */
+  --tv-mist-deep: #270a0f; /* warm burgundy mist */
   --tv-beam: #ffffff; /* bright white beam */
   --tv-beam-dim: #94a3b8; /* slate text, dimmed accent */
   --tv-mx: 50vw; /* JS-set ambient glow X */
@@ -310,7 +310,7 @@
 /* --- Opening Page Mobile Hero (≤768px only) --- */.opening-mobile-hero {
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
-  background-color: #0b0204; /* Extra dark burgundy background */
+  background-color: #21090c; /* Extra dark burgundy background */
 }
 
 /* Vignette effect to focus the content */

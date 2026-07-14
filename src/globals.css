@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400..900&display=swap');
 @import url('https://api.fontshare.com/v2/css?f[]=boska@300,400,500,700,900&f[]=stardom@400&f[]=switzer@300,400,500,600,700,800&display=swap');
 @import "tailwindcss";
 @import "./styles/variables.css";
@@ -7,6 +8,7 @@
 
 @theme {
   --font-boska: 'Boska', serif;
+  --font-bodoni: 'Bodoni Moda', serif;
   --font-stardom: 'Stardom', sans-serif;
   --font-switzer: 'Switzer', sans-serif;
 
@@ -43,7 +45,7 @@
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #170709;
+  background: #21090c;
 }
 ::-webkit-scrollbar-thumb {
   background: #d9040b25;
@@ -54,7 +56,7 @@
 }
 
 html, body {
-  background-color: #170709;
+  background-color: #21090c;
   color: #eae3d2;
   font-family: 'Switzer', sans-serif;
   scroll-behavior: smooth;

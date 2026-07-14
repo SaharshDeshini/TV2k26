@@ -163,7 +163,7 @@ export default function HeroSection() {
     window.addEventListener('mousemove', handleMouseMove);
 
     const tick = () => {
-      const targetAngle = ((tx / window.innerWidth) - 0.5) * 48; // Maximum ±24 degrees rotation
+      const targetAngle = (0.5 - (tx / window.innerWidth)) * 48; // Maximum ±24 degrees rotation, inverted to follow cursor
       cAngle += (targetAngle - cAngle) * 0.16;                  // Smoother tracking speed (lerp 0.16)
       document.documentElement.style.setProperty('--tv-beam-angle', `${cAngle}deg`);
       document.documentElement.style.setProperty('--tv-beam-angle-raw', cAngle.toFixed(4));

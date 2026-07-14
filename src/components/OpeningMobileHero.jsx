@@ -4,16 +4,6 @@ import React, { useMemo } from "react";
 import { motion } from "framer-motion";
 import { GOLDEN_EASE } from "@/animations/variants";
 
-const GOLD_GRADIENT =
-  "linear-gradient(135deg, #FFE899 0%, #F59E0B 100%)";
-
-const STATS = [
-  { value: "18TH", label: "EDITION" },
-  { value: "8", label: "EVENTS" },
-  { value: "₹1L+", label: "REWARDS" },
-  { value: "3", label: "DAYS" },
-];
-
 function MobileAmbientBackground() {
   const backgroundElements = useMemo(() => {
     const particles = [];
@@ -148,44 +138,6 @@ function MobileAmbientBackground() {
   );
 }
 
-function StatCard({ stat, index }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 16, scale: 0.96 }}
-      animate={{
-        opacity: 1,
-        scale: 1,
-        y: [0, -3, 0],
-      }}
-      transition={{
-        opacity: { duration: 0.55, delay: 0.85 + index * 0.1, ease: GOLDEN_EASE },
-        scale: { duration: 0.55, delay: 0.85 + index * 0.1, ease: GOLDEN_EASE },
-        y: {
-          duration: 4.5,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 1.25 + index * 0.15,
-        },
-      }}
-      whileTap={{ scale: 0.98 }}
-      className="opening-mobile-stat group"
-    >
-      <span
-        className="opening-mobile-stat__value font-heading font-black leading-none"
-        style={{
-          backgroundImage: GOLD_GRADIENT,
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-          backgroundClip: "text",
-        }}
-      >
-        {stat.value}
-      </span>
-      <span className="opening-mobile-stat__label">{stat.label}</span>
-    </motion.div>
-  );
-}
-
 export default function OpeningMobileHero({ onEnter, isEntered = false }) {
   return (
     <section
@@ -194,38 +146,15 @@ export default function OpeningMobileHero({ onEnter, isEntered = false }) {
     >
       <MobileAmbientBackground />
 
-      <div className="relative z-10 flex h-full flex-col items-center justify-between px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-[max(0.75rem,env(safe-area-inset-top))] sm:px-5">
-        {/* Status Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: -8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: GOLDEN_EASE }}
-          className="opening-mobile-badge shrink-0"
-        >
-          <span className="opening-mobile-badge__dot" />
-          <span>18th Edition</span>
-          <span className="opening-mobile-badge__sep">•</span>
-          <span>Since 2006</span>
+      <div className="relative z-10 flex h-full flex-col items-center justify-center px-5 pb-[max(3.5rem,env(safe-area-inset-bottom))] pt-[max(1.5rem,env(safe-area-inset-top))]">
+        <div className="flex w-full flex-1 flex-col items-center justify-center gap-5 sm:gap-7 -mt-2">
+          
+          {/* Logo / Poster - Increased visual importance */}
           <motion.div
-            className="opening-mobile-badge__shimmer"
-            animate={{ x: ["-150%", "250%"] }}
-            transition={{
-              duration: 2.5,
-              repeat: Infinity,
-              repeatDelay: 4.5,
-              ease: "easeInOut",
-            }}
-          />
-        </motion.div>
-
-        {/* Center stack: Logo → Tagline → CTA → Stats */}
-        <div className="flex w-full max-w-[420px] md:max-w-[700px] flex-1 flex-col items-center justify-center gap-3 sm:gap-3.5 md:gap-6">
-          {/* Logo */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, filter: "blur(12px)" }}
+            initial={{ opacity: 0, scale: 0.95, filter: "blur(10px)" }}
             animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-            transition={{ duration: 0.9, ease: GOLDEN_EASE }}
-            className="opening-mobile-logo-wrap relative w-full max-w-[min(88vw,340px)]"
+            transition={{ duration: 1.1, ease: GOLDEN_EASE }}
+            className="opening-mobile-logo-wrap relative w-full max-w-[min(98vw,470px)]"
           >
             <motion.div
               animate={{ opacity: [0.35, 0.6, 0.35], scale: [0.95, 1.04, 0.95] }}
@@ -234,101 +163,103 @@ export default function OpeningMobileHero({ onEnter, isEntered = false }) {
             />
             <motion.div
               animate={{
-                y: [0, -5, 0],
-                rotate: [0, 0.6, -0.6, 0]
+                y: [0, -4, 0],
+                rotate: [0, 0.4, -0.4, 0]
               }}
-              transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
-              className="opening-mobile-logo-wrap__panel"
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              className="opening-mobile-logo-wrap__panel p-1.5 shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
             >
               <img
                 src="/events/technovista-banner.png"
                 alt="TechnoVista 18th Edition"
-                className="opening-mobile-logo-wrap__img"
+                className="opening-mobile-logo-wrap__img w-full h-auto rounded-[14px] filter brightness-[1.05]"
                 draggable={false}
               />
             </motion.div>
           </motion.div>
 
-          {/* Tagline */}
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
+          {/* Subtitle & Dates Stack */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.35, ease: GOLDEN_EASE }}
-            className="opening-mobile-tagline text-center"
+            transition={{ duration: 0.9, delay: 0.35, ease: GOLDEN_EASE }}
+            className="flex flex-col items-center text-center gap-3"
           >
-            National Tech Symposium at VNRVJIET
-          </motion.p>
+            <p className="font-switzer font-light text-[0.8rem] sm:text-[0.95rem] tracking-wide text-[#eae3d2b3] leading-[1.65]">
+              National Level Tech Symposium<br />Hosted at VNR VJIET
+            </p>
+            
+            <p className="font-heading font-medium text-[0.85rem] sm:text-[0.95rem] tracking-[0.16em] uppercase"
+               style={{ color: '#F5E6B3' }}>
+              31 JULY <span className="opacity-50 mx-3 sm:mx-4 text-[0.65rem] align-middle">•</span> 1 AUG <span className="opacity-50 mx-3 sm:mx-4 text-[0.65rem] align-middle">•</span> 2 AUG
+            </p>
+          </motion.div>
 
-          {/* CTA */}
+          {/* CTA Button */}
           {!isEntered && onEnter && (
-            <motion.button
-              onClick={onEnter}
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{
-                type: "spring",
-                stiffness: 140,
-                damping: 20,
-                delay: 0.5,
-              }}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.96 }}
-              className="opening-mobile-cta group relative mt-0.5 shrink-0"
+              transition={{ duration: 0.8, delay: 0.55, ease: GOLDEN_EASE }}
             >
-              <span className="relative z-10">Enter Command Grid</span>
-              <motion.span
-                aria-hidden="true"
-                className="opening-mobile-cta__sweep absolute inset-0 pointer-events-none"
-                animate={{ x: ["-180%", "180%"] }}
-                transition={{
-                  duration: 1.3,
-                  repeat: Infinity,
-                  repeatDelay: 4.2,
-                  ease: [0.16, 1, 0.3, 1],
+              <motion.button
+                onClick={onEnter}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.96 }}
+                className="group relative px-8 py-2.5 border font-heading font-semibold uppercase text-[11px] sm:text-xs rounded-full cursor-pointer overflow-hidden text-center shrink-0"
+                style={{
+                  backgroundImage: 'linear-gradient(135deg, #FFE899 0%, #E6B94A 50%, #C49021 100%)', // Premium champagne metallic gradient
+                  borderColor: 'rgba(255, 230, 160, 0.45)', // Thin gold border
+                  color: '#170709', // Dark contrast text
+                  letterSpacing: '0.16em', // Same as hero
+                  boxShadow: '0 4px 20px rgba(245, 158, 11, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.40)', // Soft glow beneath, subtle inner highlight, no heavy shadows
                 }}
-              />
-              <span aria-hidden="true" className="opening-mobile-cta__glow" />
-            </motion.button>
+              >
+                <span className="relative z-10">ENTER THE EXPERIENCE</span>
+                <motion.span
+                  aria-hidden="true"
+                  className="opening-mobile-cta__sweep absolute inset-0 pointer-events-none"
+                  animate={{ x: ["-180%", "180%"] }}
+                  transition={{
+                    duration: 1.3,
+                    repeat: Infinity,
+                    repeatDelay: 4.2,
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
+                  style={{
+                    background: 'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.30) 50%, transparent 100%)',
+                    transform: 'skewX(-25deg)',
+                  }}
+                />
+              </motion.button>
+            </motion.div>
           )}
 
-          {/* Statistics 2×2 on Mobile, 4x1 on Tablet */}
-          <div className="opening-mobile-stats mt-1 w-full max-w-[min(92vw,360px)]">
-            {STATS.map((stat, i) => (
-              <StatCard key={stat.label} stat={stat} index={i} />
-            ))}
-          </div>
-        </div>
+          {/* Information Strip (Premium Editorial Footer) */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 0.8, ease: GOLDEN_EASE }}
+            className="mt-6 sm:mt-10 w-full flex flex-col items-center"
+          >
+            <div className="w-[88%] max-w-[420px] sm:max-w-[680px] h-[1px] bg-gradient-to-r from-transparent via-[#F5E6B3] to-transparent opacity-15 mb-4" />
+            
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-0">
+              <p className="font-mono font-semibold text-[0.85rem] sm:text-[0.95rem] uppercase tracking-[0.25em] text-[#eae3d2c0] text-center flex items-center justify-center">
+                4th EDITION 
+                <span className="opacity-40 mx-3 sm:mx-4 font-light text-[0.9rem] mb-[2px]">│</span> 
+                8 EVENTS
+                <span className="hidden sm:inline-block opacity-40 mx-3 sm:mx-4 font-light text-[0.9rem] mb-[2px]">│</span>
+              </p>
+              <p className="font-mono font-semibold text-[0.85rem] sm:text-[0.95rem] uppercase tracking-[0.25em] text-[#eae3d2c0] text-center">
+                ₹1 LAKH+ PRIZE POOL
+              </p>
+            </div>
+            
+            <div className="w-[88%] max-w-[420px] sm:max-w-[680px] h-[1px] bg-gradient-to-r from-transparent via-[#F5E6B3] to-transparent opacity-15 mt-4" />
+          </motion.div>
 
-        {/* Scroll Indicator */}
-        {/* <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 1.35, ease: GOLDEN_EASE }}
-          className="opening-mobile-scroll shrink-0"
-          aria-hidden="true"
-        >
-          <motion.span
-            animate={{ opacity: [0.35, 0.65, 0.35] }}
-            transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
-            className="opening-mobile-scroll__label"
-          >
-            Explore
-          </motion.span>
-          <motion.svg
-            width="10"
-            height="6"
-            viewBox="0 0 10 6"
-            fill="none"
-            stroke="rgba(255, 201, 88, 0.55)"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            animate={{ y: [0, 4, 0], opacity: [0.3, 0.8, 0.3] }}
-            transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <path d="M1 1L5 5L9 1" />
-          </motion.svg>
-        </motion.div> */}
+        </div>
       </div>
     </section>
   );

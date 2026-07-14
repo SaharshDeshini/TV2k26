@@ -8,10 +8,14 @@ export default function LandingIntro({ onComplete }) {
   const [stage, setStage] = useState(0); // 0: loading/playing, 1: fade-out
 
   useEffect(() => {
-    // Zoom out the text 1.2 seconds after mount (once the portal opens in the video)
     const textTimer = setTimeout(() => {
       setShowText(true);
     }, 1200);
+
+    // Fade out text matching the portal collapse
+    const textExitTimer = setTimeout(() => {
+      setShowText(false);
+    }, 3700);
 
     // Trigger page entrance transition after 4.6 seconds
     const exitTimer = setTimeout(() => {
@@ -25,6 +29,7 @@ export default function LandingIntro({ onComplete }) {
 
     return () => {
       clearTimeout(textTimer);
+      clearTimeout(textExitTimer);
       clearTimeout(exitTimer);
       clearTimeout(completeTimer);
     };
@@ -47,13 +52,40 @@ export default function LandingIntro({ onComplete }) {
           className="fixed inset-0 z-[100] bg-[#170709] flex flex-col items-center justify-center overflow-hidden"
         >
           {/* Fullscreen Portal Video Intro */}
+          <style>{`
+            .portal-video-responsive {
+              position: absolute;
+              z-index: 10;
+              opacity: 0.8;
+            }
+            @media (max-width: 639px) {
+              .portal-video-responsive {
+                width: 250vw;
+                height: auto;
+                max-width: none;
+                top: 50%;
+                left: 50%;
+                transform: translate(-32%, -50%);
+              }
+            }
+            @media (min-width: 640px) {
+              .portal-video-responsive {
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: 0% center;
+                transform: scale(1.05) translateX(3%);
+              }
+            }
+          `}</style>
           <video
             src="/videos/portal.mp4"
             autoPlay
             muted
             playsInline
             onEnded={handleVideoEnded}
-            className="absolute inset-0 w-full h-full object-cover z-10 opacity-80"
+            className="portal-video-responsive"
           />
 
           {/* Futuristic HUD scans & scanlines */}
@@ -64,33 +96,77 @@ export default function LandingIntro({ onComplete }) {
           <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none select-none">
             <AnimatePresence>
               {showText && (
-                <motion.div
-                  initial={{ scale: 0.05, opacity: 0, filter: "blur(15px)" }}
-                  animate={{ scale: 1.0, opacity: 1, filter: "blur(0px)" }}
-                  exit={{ scale: 1.15, opacity: 0, filter: "blur(8px)" }}
-                  transition={{ 
-                    type: "spring", 
-                    stiffness: 65, 
-                    damping: 13,
-                    duration: 1.3
-                  }}
-                  className="flex flex-col items-center justify-center text-center px-4 -translate-x-4 sm:-translate-x-6 md:-translate-x-8"
-                >
-                  <h1 className="font-boska font-black text-3xl sm:text-7xl md:text-[5rem] leading-none tracking-wider text-[#d9040b] drop-shadow-[0_0_35px_rgba(217,4,11,0.75)] uppercase">
-                    VJ DATA QUESTERS
-                  </h1>
-                  <h1 className="font-boska font-black text-2xl sm:text-5xl md:text-[3rem] leading-none tracking-widest text-[#d9040b] drop-shadow-[0_0_35px_rgba(217,4,11,0.75)] mt-4">
-                    Presents
-                  </h1>
-                  {/* <motion.p
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 0.85, y: 0 }}
-                    transition={{ delay: 0.9, duration: 0.8 }}
-                    className="font-stardom text-[#D4AF37] text-xs sm:text-sm tracking-[0.45em] uppercase mt-6 drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]"
+                <>
+                  {/* Deep Atmospheric Haze & Red Illumination */}
+                  <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 2, ease: "easeInOut" }}
+                    className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10"
                   >
-                    VJ DATA QUESTERS PRESENTS
-                  </motion.p> */}
+                    <div className="absolute w-[85vw] h-[85vw] max-w-[900px] max-h-[900px] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.03)_0%,transparent_60%)]" />
+                    <div className="absolute w-[65vw] h-[65vw] max-w-[700px] max-h-[700px] rounded-full bg-[radial-gradient(circle,rgba(217,4,11,0.06)_0%,transparent_65%)] mix-blend-screen" />
+                  </motion.div>
+
+                  <motion.div
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                    className="flex flex-col items-center justify-center text-center px-4 w-full -space-y-1 -translate-y-4 sm:-translate-y-6"
+                  >
+                  <motion.h1 
+                    variants={{
+                      hidden: { opacity: 0, scale: 0.95 },
+                      visible: { opacity: 1, scale: 1, transition: { duration: 1.5, delay: 0, ease: "easeOut" } },
+                      exit: { opacity: 0, scale: 0.8, filter: "blur(4px)", transition: { duration: 0.5, ease: "easeIn" } }
+                    }}
+                    className="font-heading font-black text-3xl sm:text-4xl md:text-[3.6rem] leading-[1.05] tracking-wide uppercase"
+                    style={{ 
+                      backgroundImage: 'linear-gradient(135deg, #FFE899 0%, #F59E0B 100%)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text',
+                      filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8))'
+                    }}
+                  >
+                    VJ DATA
+                  </motion.h1>
+
+                  <motion.h1 
+                    variants={{
+                      hidden: { opacity: 0, scale: 0.95 },
+                      visible: { opacity: 1, scale: 1, transition: { duration: 1.5, delay: 0.8, ease: "easeOut" } },
+                      exit: { opacity: 0, scale: 0.8, filter: "blur(4px)", transition: { duration: 0.5, ease: "easeIn" } }
+                    }}
+                    className="font-heading font-black text-3xl sm:text-4xl md:text-[3.6rem] leading-[1.05] tracking-wide uppercase"
+                    style={{ 
+                      backgroundImage: 'linear-gradient(135deg, #FFE899 0%, #F59E0B 100%)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text',
+                      filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8))'
+                    }}
+                  >
+                    QUESTERS
+                  </motion.h1>
+                  
+                  <motion.p 
+                    variants={{
+                      hidden: { opacity: 0 },
+                      visible: { opacity: 1, transition: { duration: 1.5, delay: 1.6, ease: "easeInOut" } },
+                      exit: { opacity: 0, scale: 0.8, transition: { duration: 0.4, ease: "easeIn" } }
+                    }}
+                    className="font-mono font-medium text-[0.55rem] sm:text-[0.7rem] md:text-[0.8rem] tracking-[1em] uppercase mt-4 opacity-70 ml-4"
+                    style={{ 
+                      color: '#d9040b',
+                      filter: 'drop-shadow(0 0 10px rgba(217,4,11,0.5))' 
+                    }}
+                  >
+                    PRESENTS
+                  </motion.p>
                 </motion.div>
+                </>
               )}
             </AnimatePresence>
           </div>

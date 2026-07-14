@@ -47,25 +47,25 @@ export default function HeroBackground({ isMobile = false, delay = 0.3, accent, 
         {/* Top Left: Large warm maroon radial glow */}
         <div 
           className="absolute -top-[35%] -left-[25%] w-[110vw] h-[110vw] rounded-full opacity-100 mix-blend-screen"
-          style={{ background: 'radial-gradient(circle, rgba(90, 26, 25, 0.20) 0%, rgba(90, 26, 25, 0) 75%)' }}
+          style={{ background: 'radial-gradient(circle, rgba(105, 29, 28, 0.28) 0%, rgba(105, 29, 28, 0) 75%)' }}
         />
 
         {/* Top Right: Soft burgundy ambient glow */}
         <div 
           className="absolute -top-[25%] -right-[15%] w-[80vw] h-[80vw] rounded-full opacity-100 mix-blend-screen"
-          style={{ background: 'radial-gradient(circle, rgba(59, 14, 18, 0.12) 0%, rgba(59, 14, 18, 0) 75%)' }}
+          style={{ background: 'radial-gradient(circle, rgba(138, 45, 36, 0.18) 0%, rgba(138, 45, 36, 0) 75%)' }}
         />
 
         {/* Center Focal: Soft warm crimson ambient backlight for title area */}
         <div 
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[40vh] rounded-full opacity-80 mix-blend-screen"
-          style={{ background: 'radial-gradient(circle, rgba(138, 45, 36, 0.10) 0%, rgba(138, 45, 36, 0) 70%)' }}
+          style={{ background: 'radial-gradient(circle, rgba(153, 50, 40, 0.15) 0%, rgba(153, 50, 40, 0) 70%)' }}
         />
 
         {/* Bottom: Subtle warm gradient — burgundy to deep maroon blend */}
         <div 
-          className="absolute bottom-0 left-0 right-0 h-[45vh] pointer-events-none opacity-[0.08]"
-          style={{ background: 'linear-gradient(to right, rgba(90, 26, 25, 0.6), rgba(59, 14, 18, 0.8), rgba(42, 10, 15, 0.6))' }}
+          className="absolute bottom-0 left-0 right-0 h-[45vh] pointer-events-none opacity-[0.14]"
+          style={{ background: 'linear-gradient(to right, rgba(105, 29, 28, 0.6), rgba(75, 20, 21, 0.8), rgba(50, 12, 16, 0.6))' }}
         />
 
         {/* Layer 3: Ambient Fog / Haze (Drifting radial clouds with extremely low opacities to be subtle) */}
@@ -159,7 +159,7 @@ export default function HeroBackground({ isMobile = false, delay = 0.3, accent, 
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            'radial-gradient(ellipse at 50% 45%, transparent 0%, rgba(23, 7, 9, 0.55) 100%)',
+            'radial-gradient(ellipse at 50% 45%, transparent 0%, rgba(32, 9, 12, 0.50) 100%)',
         }}
       />
     </motion.div>
