@@ -49,7 +49,7 @@ export default function LandingIntro({ onComplete }) {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, scale: 1.05 }}
           transition={{ duration: 0.6, ease: "easeInOut" }}
-          className="fixed inset-0 z-[100] bg-[#170709] flex flex-col items-center justify-center overflow-hidden"
+          className="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center overflow-hidden"
         >
           {/* Fullscreen Portal Video Intro */}
           <style>{`
@@ -60,12 +60,12 @@ export default function LandingIntro({ onComplete }) {
             }
             @media (max-width: 639px) {
               .portal-video-responsive {
-                width: 250vw;
+                width: 215vw;
                 height: auto;
                 max-width: none;
                 top: 50%;
                 left: 50%;
-                transform: translate(-32%, -50%);
+                transform: translate(-45.5%, -50%);
               }
             }
             @media (min-width: 640px) {
@@ -113,7 +113,7 @@ export default function LandingIntro({ onComplete }) {
                     initial="hidden"
                     animate="visible"
                     exit="exit"
-                    className="flex flex-col items-center justify-center text-center px-4 w-full -space-y-1 -translate-y-4 sm:-translate-y-6"
+                    className="flex flex-col items-center justify-center text-center px-4 w-full -space-y-1 -translate-y-4 sm:-translate-y-6 translate-x-[6px] sm:translate-x-0"
                   >
                   <motion.h1 
                     variants={{
@@ -121,7 +121,7 @@ export default function LandingIntro({ onComplete }) {
                       visible: { opacity: 1, scale: 1, transition: { duration: 1.5, delay: 0, ease: "easeOut" } },
                       exit: { opacity: 0, scale: 0.8, filter: "blur(4px)", transition: { duration: 0.5, ease: "easeIn" } }
                     }}
-                    className="font-heading font-black text-3xl sm:text-4xl md:text-[3.6rem] leading-[1.05] tracking-wide uppercase"
+                    className="font-heading font-black text-2xl sm:text-4xl md:text-[3.6rem] leading-[1.05] tracking-wide uppercase translate-x-[1px] sm:translate-x-0"
                     style={{ 
                       backgroundImage: 'linear-gradient(135deg, #FFE899 0%, #F59E0B 100%)',
                       WebkitBackgroundClip: 'text',
@@ -139,7 +139,7 @@ export default function LandingIntro({ onComplete }) {
                       visible: { opacity: 1, scale: 1, transition: { duration: 1.5, delay: 0.8, ease: "easeOut" } },
                       exit: { opacity: 0, scale: 0.8, filter: "blur(4px)", transition: { duration: 0.5, ease: "easeIn" } }
                     }}
-                    className="font-heading font-black text-3xl sm:text-4xl md:text-[3.6rem] leading-[1.05] tracking-wide uppercase"
+                    className="font-heading font-black text-2xl sm:text-4xl md:text-[3.6rem] leading-[1.05] tracking-wide uppercase"
                     style={{ 
                       backgroundImage: 'linear-gradient(135deg, #FFE899 0%, #F59E0B 100%)',
                       WebkitBackgroundClip: 'text',

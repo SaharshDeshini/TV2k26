@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import LandingIntro from "@/components/LandingIntro";
 import SparksEffect from "@/components/SparksEffect";
 import SketchfabBackground from "@/components/SketchfabBackground";
@@ -76,11 +76,24 @@ export default function Intro() {
   const word = "TECHNOVISTA";
 
   return (
-    <>
+    <AnimatePresence mode="popLayout">
       {isLoading ? (
-        <LandingIntro onComplete={handleIntroComplete} />
+        <motion.div
+          key="portal-loader"
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.8, ease: "easeInOut" }}
+          className="fixed inset-0 z-[100]"
+        >
+          <LandingIntro onComplete={handleIntroComplete} />
+        </motion.div>
       ) : (
-        <div className="relative h-[100svh] md:min-h-screen md:h-auto w-screen bg-transparent overflow-hidden md:overflow-y-auto lg:overflow-hidden flex flex-col justify-center select-none py-0 md:py-8 lg:py-0">
+        <motion.div
+          key="opening-page-container"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="relative h-[100svh] md:min-h-screen md:h-auto w-screen bg-transparent overflow-hidden md:overflow-y-auto lg:overflow-hidden flex flex-col justify-center select-none py-0 md:py-8 lg:py-0"
+        >
           {/* Doctor Strange spark mouse trails */}
           <SparksEffect />
           
@@ -119,8 +132,8 @@ export default function Intro() {
               </div>
             </div>
           )}
-        </div>
+        </motion.div>
       )}
-    </>
+    </AnimatePresence>
   );
 }

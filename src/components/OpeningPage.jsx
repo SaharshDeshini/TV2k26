@@ -28,13 +28,13 @@ export default function Hero({ onEnter, isEntered = false }) {
             {/* Stat Item 1 */}
             <div>
               <span className="font-mono text-[10px] uppercase tracking-widest text-[#F59E0B] block mb-1">
-                INDEX SYSTEM // EST. 2006
+                INDEX SYSTEM // EST. 2019
               </span>
               <h3 className="font-heading text-4xl sm:text-5xl font-black uppercase tracking-wide" style={{ backgroundImage: 'linear-gradient(135deg, #FFE899 0%, #F59E0B 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', display: 'inline-block', filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8))' }}>
-                18th Edition
+                4th Edition
               </h3>
               <p className="font-switzer text-[#eae3d2b3] font-light text-sm sm:text-base leading-relaxed mt-2 max-w-sm lg:ml-auto">
-                Nearly two decades of technical innovation and student coordination.
+                Nearly four years of technical innovation and student coordination.
               </p>
             </div>
 
@@ -151,7 +151,7 @@ export default function Hero({ onEnter, isEntered = false }) {
                 CONFLUENCE // ATTENDEES
               </span>
               <h3 className="font-heading text-4xl sm:text-5xl font-black uppercase tracking-wide" style={{ backgroundImage: 'linear-gradient(135deg, #FFE899 0%, #F59E0B 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', display: 'inline-block', filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8))' }}>
-                600+ Agents
+                700+ Agents
               </h3>
               <p className="font-switzer text-[#eae3d2b3] font-light text-sm sm:text-base leading-relaxed mt-2 max-w-sm">
                 Tech enthusiasts and elite coders assembling for symposium operations.
