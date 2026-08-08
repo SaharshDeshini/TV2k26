@@ -33,9 +33,6 @@ function IntroContent() {
   useEffect(() => {
     document.title = "TECHNOVISTA 2K26 | VJ Data Questers";
     setMounted(true);
-    // When visiting or navigating back to /, present the Opening Page
-    setIsLoading(false);
-    setStage("opening");
   }, []);
 
   useEffect(() => {
