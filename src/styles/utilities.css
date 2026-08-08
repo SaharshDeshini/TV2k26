@@ -238,6 +238,21 @@
   opacity: 1;
 }
 
+/* Instant-settle: skip all entrance CSS transitions when arriving from cinematic transition */
+[data-transition-complete] .tv-hero-content {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  transition: none !important;
+}
+[data-transition-complete] .tv-scroll-cue {
+  opacity: 1 !important;
+  transition: none !important;
+}
+[data-transition-complete] .tv-hero-btn-glow {
+  opacity: 1 !important;
+  transition: none !important;
+}
+
 /* Prefers-reduced-motion contract */
 @media (prefers-reduced-motion: reduce) {
 

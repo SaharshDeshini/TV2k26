@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useState,  useMemo } from 'react';
 import { motion, useTransform } from 'framer-motion';
 import { GOLDEN_EASE } from '../../animations/variants';
 import { useHeroScroll } from '../../contexts/HeroScrollContext';
@@ -67,6 +67,7 @@ export default function HeroFloatingWords({
   accent = '#B7C0CF',
   delay = 0.8,
   animateState = 'hidden',
+  introPhase = "completed"
 }) {
   const counts = { desktop: 20, tablet: 12, mobile: 6 };
   const count = counts[viewportTier] || counts.desktop;
@@ -133,6 +134,7 @@ export default function HeroFloatingWords({
           accent={accent}
           delay={delay}
           animateState={animateState}
+          introPhase={introPhase}
         />
       ))}
     </div>
@@ -152,9 +154,12 @@ function FloatingWordItem({
   isTouch,
   accent,
   delay,
-  animateState
+  animateState,
+  introPhase
 }) {
   const [hovered, setHovered] = React.useState(false);
+
+  const [isTransitionCompleted] = useState(() => typeof window !== 'undefined' && window.__introTransitionComplete && !window.__startCinematic);
 
   // Exit progress mapping (starts at 0.0, ends at 0.85)
   const exitProgress = useTransform(sceneProgress, [0, 0.85], [0, 1]);
@@ -176,14 +181,28 @@ function FloatingWordItem({
 
   const itemVariants = {
     hidden: { opacity: 0 },
-    visible: (custom) => ({
+    fadeout: { opacity: 0 },
+    beam: { opacity: 0 },
+    gold_entry: { opacity: 0 },
+    retract_anchor: { opacity: 0 },
+    bg_unveil: { opacity: 0 },
+    badges_particles: (custom) => ({
       opacity: custom.opacity,
-      transition: {
-        duration: 1.6,
-        delay: custom.delay,
-        ease: GOLDEN_EASE,
-      },
+      transition: { duration: 1.6, delay: custom.delay * 0.4, ease: [0.16, 1, 0.3, 1] },
     }),
+    reexpand_morph: (custom) => ({ opacity: custom.opacity }),
+    final_cta: (custom) => ({ opacity: custom.opacity }),
+    completed: (custom) => ({ opacity: custom.opacity, transition: { duration: 0 } }),
+    visible: (custom) => ({ opacity: custom.opacity, transition: { duration: 0 } }),
+
+    refresh_bg: { opacity: 0 },
+    refresh_beam: { opacity: 0 },
+    refresh_particles: (custom) => ({
+      opacity: custom.opacity,
+      transition: { duration: 1.0, delay: custom.delay * 0.3, ease: [0.16, 1, 0.3, 1] },
+    }),
+    refresh_title: (custom) => ({ opacity: custom.opacity }),
+    refresh_settle: (custom) => ({ opacity: custom.opacity }),
   };
 
   return (
@@ -200,8 +219,8 @@ function FloatingWordItem({
       <motion.div
         variants={itemVariants}
         custom={{ opacity: 1.0, delay: delay + index * 0.04 }}
-        initial="hidden"
-        animate={animateState}
+        initial={isTransitionCompleted && introPhase === "completed" ? "visible" : "hidden"}
+        animate={introPhase !== "completed" ? introPhase : animateState}
       >
         {/* Mouse parallax container */}
         <div
@@ -233,10 +252,10 @@ function FloatingWordItem({
               letterSpacing: '12px',
               opacity: hovered ? 0.85 : w.opacity, // Dynamic opacity boost on hover
               textShadow: hovered ? '0 0 8px rgba(255, 213, 145, 0.35)' : 'none', // Warm amber glow
-              textDecoration: hovered ? 'underline' : 'none', // Subtle text decoration
+              textDecorationLine: hovered ? 'underline' : 'none', // Subtle text decoration
               textDecorationColor: 'rgba(255, 213, 145, 0.25)',
               textUnderlineOffset: '4px',
-              transition: 'opacity 0.3s ease, text-shadow 0.3s ease, text-decoration 0.3s ease',
+              transition: 'opacity 0.3s ease, text-shadow 0.3s ease, text-decoration-line 0.3s ease',
             }}
           >
             {w.word}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { GOLDEN_EASE } from '../../animations/variants';
 
@@ -26,6 +26,7 @@ export default function HeroFeaturedObject({
   isTouch = false,
   delay = 0.6,
   animateState = 'hidden',
+  introPhase = "completed",
 }) {
   const featured = FEATURED_MAP[themeName] || FEATURED_MAP.explore;
 
@@ -35,23 +36,33 @@ export default function HeroFeaturedObject({
   const shadowX = isTouch ? 0 : -mouseX * depth * 0.5;
   const shadowY = isTouch ? 0 : -mouseY * depth * 0.5;
 
+  const [isTransitionCompleted] = useState(() => typeof window !== 'undefined' && window.__introTransitionComplete && !window.__startCinematic);
+
   const containerVariants = {
     hidden: { opacity: 0, scale: 0.8 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: { duration: 1.8, delay, ease: GOLDEN_EASE }
-    }
+    badges_particles: { opacity: 1, scale: 1, transition: { duration: 1.4, ease: GOLDEN_EASE } },
+    reexpand_morph: { opacity: 1, scale: 1 },
+    final_cta: { opacity: 1, scale: 1 },
+    completed: { opacity: 1, scale: 1, transition: { duration: 0 } },
+    visible: { opacity: 1, scale: 1, transition: { duration: 0 } },
+
+    refresh_particles: { opacity: 1, scale: 1, transition: { duration: 1.0, ease: GOLDEN_EASE } },
+    refresh_title: { opacity: 1, scale: 1 },
+    refresh_settle: { opacity: 1, scale: 1 }
   };
 
   const rotMouse = isTouch ? 0 : (mouseX - mouseY) * depth * 0.22;
   const scaleMouse = isTouch ? 1 : 1 + Math.abs(mouseX + mouseY) * 0.0008;
 
+  // Show featured object only during later phases
+  const featuredPhases = ["badges_particles", "reexpand_morph", "final_cta", "completed", "refresh_particles", "refresh_title", "refresh_settle"];
+  const featAnimate = featuredPhases.includes(introPhase) ? introPhase : (introPhase === "completed" ? animateState : "hidden");
+
   return (
     <motion.div
       variants={containerVariants}
       initial="hidden"
-      animate={animateState}
+      animate={featAnimate}
       className="absolute z-[2] pointer-events-none"
       style={{
         left: isMobile ? '50%' : 'auto',

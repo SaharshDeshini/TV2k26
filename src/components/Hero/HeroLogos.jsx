@@ -16,58 +16,111 @@ export default function HeroLogos({
   mouseY = 0,
   isTouch = false,
   isTransitioning = false, // Day transition state intercept
+  introPhase = "completed"
 }) {
   const glowColor = accent || '#ffffff';
   const [leftHovered, setLeftHovered] = useState(false);
   const [rightHovered, setRightHovered] = useState(false);
 
+  const [isTransitionCompleted] = useState(() => typeof window !== 'undefined' && window.__introTransitionComplete && !window.__startCinematic);
+
+  // Logo 1 Base Variants (College)
   // Logo 1 Base Variants (College)
   const logoLeftBase = {
     hidden: { opacity: 0, y: 35, scale: 0.85 },
-    visible: {
+    fadeout: { opacity: 0, y: 35, scale: 0.85 },
+    beam: { opacity: 0, y: 35, scale: 0.85 },
+    gold_entry: { opacity: 0, y: 35, scale: 0.85 },
+    retract_anchor: { opacity: 0, y: 35, scale: 0.85 },
+    bg_unveil: { opacity: 0, y: 35, scale: 0.85 },
+    badges_particles: {
       opacity: 1,
       y: 0,
       scale: 1,
-      transition: {
-        opacity: { duration: 1.4, delay, ease: 'easeOut' },
-        y: { duration: 1.4, delay, ease: GOLDEN_EASE },
-        scale: { duration: 1.4, delay, ease: GOLDEN_EASE }
-      }
-    }
+      transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] }
+    },
+    reexpand_morph: { opacity: 1, y: 0, scale: 1 },
+    final_cta: { opacity: 1, y: 0, scale: 1 },
+    completed: { opacity: 1, y: 0, scale: 1, transition: { duration: 0 } },
+    visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0 } },
+
+    refresh_bg: { opacity: 0, y: 35, scale: 0.85 },
+    refresh_beam: { opacity: 0, y: 35, scale: 0.85 },
+    refresh_particles: { opacity: 0, y: 35, scale: 0.85 },
+    refresh_title: { opacity: 0, y: 35, scale: 0.85 },
+    refresh_settle: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
   };
 
   // Logo 2 Base Variants (Club)
   const logoRightBase = {
-    hidden: { opacity: 0, y: 35, scale: 0.85 },
-    visible: {
+    hidden: { opacity: 0, y: 15, scale: 0.95, filter: 'none' },
+    fadeout: { opacity: 0, y: 15, scale: 0.95, filter: 'none' },
+    beam: { opacity: 0, y: 15, scale: 0.95, filter: 'none' },
+    gold_entry: { opacity: 0, y: 15, scale: 0.95, filter: 'none' },
+    retract_anchor: { opacity: 0, y: 15, scale: 0.95, filter: 'none' },
+    bg_unveil: { opacity: 0, y: 15, scale: 0.95, filter: 'none' },
+    badges_particles: {
       opacity: 1,
       y: 0,
       scale: 1,
-      transition: {
-        opacity: { duration: 1.4, delay: delay + 0.05, ease: 'easeOut' },
-        y: { duration: 1.4, delay: delay + 0.05, ease: GOLDEN_EASE },
-        scale: { duration: 1.4, delay: delay + 0.05, ease: GOLDEN_EASE }
-      }
-    }
+      filter: 'none',
+      transition: { duration: 1.2, delay: 0.15, ease: [0.16, 1, 0.3, 1] }
+    },
+    reexpand_morph: { opacity: 1, y: 0, scale: 1, filter: 'none' },
+    final_cta: { opacity: 1, y: 0, scale: 1, filter: 'none' },
+    completed: { opacity: 1, y: 0, scale: 1, filter: 'none', transition: { duration: 0 } },
+    visible: { opacity: 1, y: 0, scale: 1, filter: 'none', transition: { duration: 0 } },
+
+    refresh_bg: { opacity: 0, y: 15, scale: 0.95, filter: 'none' },
+    refresh_beam: { opacity: 0, y: 15, scale: 0.95, filter: 'none' },
+    refresh_particles: { opacity: 0, y: 15, scale: 0.95, filter: 'none' },
+    refresh_title: { opacity: 0, y: 15, scale: 0.95, filter: 'none' },
+    refresh_settle: { opacity: 1, y: 0, scale: 1, filter: 'none', transition: { duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] } }
+  };
+
+  const logoMobileBase = {
+    hidden: { opacity: 0, y: 35, scale: 0.85, x: '-50%' },
+    fadeout: { opacity: 0, y: 35, scale: 0.85, x: '-50%' },
+    beam: { opacity: 0, y: 35, scale: 0.85, x: '-50%' },
+    gold_entry: { opacity: 0, y: 35, scale: 0.85, x: '-50%' },
+    retract_anchor: { opacity: 0, y: 35, scale: 0.85, x: '-50%' },
+    bg_unveil: { opacity: 0, y: 35, scale: 0.85, x: '-50%' },
+    badges_particles: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      x: '-50%',
+      transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] }
+    },
+    reexpand_morph: { opacity: 1, y: 0, scale: 1, x: '-50%' },
+    final_cta: { opacity: 1, y: 0, scale: 1, x: '-50%' },
+    completed: { opacity: 1, y: 0, scale: 1, x: '-50%', transition: { duration: 0 } },
+    visible: { opacity: 1, y: 0, scale: 1, x: '-50%', transition: { duration: 0 } },
+
+    refresh_bg: { opacity: 0, y: 35, scale: 0.85, x: '-50%' },
+    refresh_beam: { opacity: 0, y: 35, scale: 0.85, x: '-50%' },
+    refresh_particles: { opacity: 0, y: 35, scale: 0.85, x: '-50%' },
+    refresh_title: { opacity: 0, y: 35, scale: 0.85, x: '-50%' },
+    refresh_settle: { opacity: 1, y: 0, scale: 1, x: '-50%', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
   };
 
   // Unified Mobile Header Layout (Prevents logos from fighting and getting compressed)
   if (isMobile) {
     return (
       <motion.div
-        variants={logoLeftBase}
-        initial="hidden"
+        variants={logoMobileBase}
+        initial={isTransitionCompleted && introPhase === "completed" ? "visible" : "hidden"}
         animate={
-          isTransitioning 
-            ? { opacity: 0.35, scale: 0.95, y: -15, x: '-50%', rotate: 0 } 
-            : (animateState === 'visible' 
-                ? { opacity: 1, scale: 1, y: 0, x: '-50%', rotate: 0 } 
-                : 'hidden')
+          introPhase !== "completed" 
+            ? introPhase 
+            : (isTransitioning 
+                ? { opacity: 0.35, scale: 0.95, y: -15, x: '-50%', rotate: 0 } 
+                : (animateState === 'visible' ? 'visible' : 'hidden'))
         }
         transition={
-          isTransitioning 
+          introPhase === "completed" && !isTransitioning ? undefined : (isTransitioning 
             ? { duration: 0.6, ease: 'easeInOut' }
-            : { type: 'spring', stiffness: 150, damping: 25 }
+            : { type: 'spring', stiffness: 150, damping: 25 })
         }
         className="absolute top-4 left-1/2 z-30"
         style={{
@@ -125,23 +178,21 @@ export default function HeroLogos({
 
   return (
     <>
-      {/* ================= VNR LOGO (LEFT) ================= */}
+      {/* ================= Left Logo: VNRVJIET ================= */}
       <motion.div
         variants={logoLeftBase}
-        initial="hidden"
+        initial={isTransitionCompleted && introPhase === "completed" ? "visible" : "hidden"}
         animate={
-          isTransitioning 
+          introPhase !== "completed" ? introPhase : (isTransitioning 
             ? { opacity: 0.35, scale: 0.95, y: -15, x: 0, rotate: 0 } 
-            : (animateState === 'visible' 
-                ? { opacity: 1, scale: 1, y: 0, x: 0, rotate: 0 } 
-                : 'hidden')
+            : (animateState === 'visible' ? 'visible' : 'hidden'))
         }
         transition={
-          isTransitioning 
+          introPhase === "completed" && !isTransitioning ? undefined : (isTransitioning 
             ? { duration: 0.6, ease: 'easeInOut' }
-            : { type: 'spring', stiffness: 150, damping: 25 }
+            : { type: 'spring', stiffness: 150, damping: 25 })
         }
-        className="absolute top-4 left-4 sm:top-8 sm:left-12 z-30"
+        className={`absolute z-10 ${isMobile ? 'left-6 top-8' : 'left-8 lg:left-12 top-10 lg:top-12'}`}
         style={{
           transformOrigin: 'center',
           willChange: 'transform, opacity',
@@ -195,27 +246,25 @@ export default function HeroLogos({
         </div>
       </motion.div>
 
-      {/* ================= DATA QUESTERS LOGO (RIGHT) ================= */}
+      {/* ================= Right Logo: Data Questers ================= */}
       <motion.div
         variants={logoRightBase}
-        initial="hidden"
+        initial={isTransitionCompleted && introPhase === "completed" ? "visible" : "hidden"}
         animate={
-          isTransitioning 
+          introPhase !== "completed" ? introPhase : (isTransitioning 
             ? { opacity: 0.35, scale: 0.95, y: -15, x: 0, rotate: 0 } 
-            : (animateState === 'visible' 
-                ? { opacity: 1, scale: 1, y: 0, x: 0, rotate: 0 } 
-                : 'hidden')
+            : (animateState === 'visible' ? 'visible' : 'hidden'))
         }
+        className={`absolute z-10 ${isMobile ? 'right-6 top-8' : 'right-8 lg:right-12 top-10 lg:top-12'}`}
         whileHover={{
           y: -3,
           rotate: 2.5,
         }}
         transition={
-          isTransitioning 
+          introPhase === "completed" && !isTransitioning ? undefined : (isTransitioning 
             ? { duration: 0.6, ease: 'easeInOut' }
-            : { type: 'spring', stiffness: 220, damping: 20 }
+            : { type: 'spring', stiffness: 220, damping: 20 })
         }
-        className="absolute top-4 right-4 sm:top-8 sm:right-12 z-30"
         style={{
           transformOrigin: 'center',
           willChange: 'transform, opacity',

@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from 'react';
+import React, { useState,  useMemo, useRef } from 'react';
 import { motion, useTransform, useAnimationFrame } from 'framer-motion';
 import { GOLDEN_EASE } from '../../animations/variants';
 import { useHeroScroll } from '../../contexts/HeroScrollContext';
@@ -15,6 +15,7 @@ export default function HeroParticles({
   accent = '#ffffff',
   delay = 0.7,
   animateState = 'hidden',
+  introPhase = "completed"
 }) {
   const counts = { desktop: 80, tablet: 45, mobile: 20 };
   const count = counts[viewportTier] || counts.desktop;
@@ -131,6 +132,7 @@ export default function HeroParticles({
           accent={accent}
           delay={delay}
           animateState={animateState}
+          introPhase={introPhase}
         />
       ))}
     </div>
@@ -151,9 +153,12 @@ function ParticleItem({
   isMobile = false,
   accent,
   delay,
-  animateState
+  animateState,
+  introPhase
 }) {
   const elRef = useRef(null);
+
+  const [isTransitionCompleted] = useState(() => typeof window !== 'undefined' && window.__introTransitionComplete && !window.__startCinematic);
 
   // Exit progress mapping (starts at 0.0, ends at 0.85)
   const exitProgress = useTransform(sceneProgress, [0, 0.85], [0, 1]);
@@ -176,14 +181,28 @@ function ParticleItem({
 
   const itemVariants = {
     hidden: { opacity: 0 },
-    visible: (custom) => ({
+    fadeout: { opacity: 0 },
+    beam: { opacity: 0 },
+    gold_entry: { opacity: 0 },
+    retract_anchor: { opacity: 0 },
+    bg_unveil: { opacity: 0 },
+    badges_particles: (custom) => ({
       opacity: custom.opacity,
-      transition: {
-        duration: 2.0,
-        delay: custom.delay,
-        ease: GOLDEN_EASE,
-      },
+      transition: { duration: 1.4, delay: custom.delay * 0.5, ease: [0.16, 1, 0.3, 1] }
     }),
+    reexpand_morph: (custom) => ({ opacity: custom.opacity }),
+    final_cta: (custom) => ({ opacity: custom.opacity }),
+    completed: (custom) => ({ opacity: custom.opacity, transition: { duration: 0 } }),
+    visible: (custom) => ({ opacity: custom.opacity, transition: { duration: 0 } }),
+
+    refresh_bg: { opacity: 0 },
+    refresh_beam: { opacity: 0 },
+    refresh_particles: (custom) => ({
+      opacity: custom.opacity,
+      transition: { duration: 1.0, delay: custom.delay * 0.3, ease: [0.16, 1, 0.3, 1] }
+    }),
+    refresh_title: (custom) => ({ opacity: custom.opacity }),
+    refresh_settle: (custom) => ({ opacity: custom.opacity })
   };
 
   // Gentle cursor repulsion logic — disabled on mobile/touch for performance
@@ -235,8 +254,8 @@ function ParticleItem({
       <motion.div
         variants={itemVariants}
         custom={{ opacity: 1.0, delay: delay + index * 0.03 }}
-        initial="hidden"
-        animate={animateState}
+        initial={isTransitionCompleted && introPhase === "completed" ? "visible" : "hidden"}
+        animate={introPhase !== "completed" ? introPhase : animateState}
         className="w-full h-full"
       >
         {/* Parallax and repulsion wrapper */}

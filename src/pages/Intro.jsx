@@ -7,138 +7,120 @@ import LandingIntro from "@/components/LandingIntro";
 import SparksEffect from "@/components/SparksEffect";
 import SketchfabBackground from "@/components/SketchfabBackground";
 import OpeningPage from "@/components/OpeningPage";
+import SmoothScroll from "@/components/SmoothScroll";
+import { HomeContent } from "@/pages/Home";
+import { AppProvider } from "@/contexts/AppContext";
+import { FestivalProvider } from "@/contexts/FestivalContext";
 
 export default function Intro() {
+  return (
+    <AppProvider>
+      <FestivalProvider>
+        <SmoothScroll>
+          <IntroContent />
+        </SmoothScroll>
+      </FestivalProvider>
+    </AppProvider>
+  );
+}
+
+function IntroContent() {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
-  const [stage, setStage] = useState("portal");
-  const [visibleLetters, setVisibleLetters] = useState(-1);
-  const navigate = useNavigate();
+  const [stage, setStage] = useState("portal"); // "portal" | "opening" | "fade_out" | "home"
 
   useEffect(() => {
     document.title = "TECHNOVISTA 2K26 | VJ Data Questers";
     setMounted(true);
-    if (typeof window !== "undefined") {
-      const hasShownIntro = window.__hasShownIntro;
-      if (hasShownIntro) {
-        setIsLoading(false);
-      }
-    }
+    // When visiting or navigating back to /, present the Opening Page
+    setIsLoading(false);
+    setStage("opening");
   }, []);
 
   useEffect(() => {
-    if (!mounted || isLoading) return;
+    if (!mounted || isLoading || stage === "home") {
+      document.documentElement.classList.remove("scroll-locked");
+      return;
+    }
     document.documentElement.classList.add("scroll-locked");
     return () => {
       document.documentElement.classList.remove("scroll-locked");
     };
-  }, [mounted, isLoading]);
+  }, [mounted, isLoading, stage]);
 
   const handleIntroComplete = () => {
     if (typeof window !== "undefined") {
       window.__hasShownIntro = true;
     }
     setIsLoading(false);
+    setStage("opening");
   };
 
   const handleEnter = () => {
-    setStage("transition");
-    
-    // Start letter popping transition sequence
-    const word = "TECHNOVISTA";
-    let index = 0;
-    const interval = setInterval(() => {
-      setVisibleLetters(index);
-      index++;
-      if (index >= word.length) {
-        clearInterval(interval);
-        
-        // Wait 1.1s in complete layout before dissolving
-        setTimeout(() => {
-          setStage("dissolve");
-          
-          // Navigate to home after dissolve completes
-          setTimeout(() => {
-            if (typeof window !== "undefined") {
-              window.__hasShownIntro = true;
-            }
-            navigate("/home");
-          }, 1000);
-        }, 1100);
+    setStage("fade_out");
+    setTimeout(() => {
+      if (typeof window !== "undefined") {
+        window.__startCinematic = true;
+        window.__hasShownIntro = true;
       }
-    }, 140);
+      navigate('/home');
+    }, 600); // 600ms black dissolve bridge
   };
 
   if (!mounted) {
     return <div className="min-h-screen bg-black" />;
   }
 
-  const word = "TECHNOVISTA";
+  if (stage === "home") {
+    return <HomeContent />;
+  }
 
   return (
-    <AnimatePresence mode="popLayout">
-      {isLoading ? (
-        <motion.div
-          key="portal-loader"
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.8, ease: "easeInOut" }}
-          className="fixed inset-0 z-[100]"
-        >
-          <LandingIntro onComplete={handleIntroComplete} />
-        </motion.div>
-      ) : (
-        <motion.div
-          key="opening-page-container"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative h-[100svh] md:min-h-screen md:h-auto w-screen bg-transparent overflow-hidden md:overflow-y-auto lg:overflow-hidden flex flex-col justify-center select-none py-0 md:py-8 lg:py-0"
-        >
-          {/* Doctor Strange spark mouse trails */}
-          <SparksEffect />
-          
-          {/* Solid black background */}
-          <SketchfabBackground />
+    <div className="relative min-h-screen bg-transparent">
+      <AnimatePresence mode="popLayout">
+        {isLoading ? (
+          <motion.div
+            key="portal-loader"
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            className="fixed inset-0 z-[100]"
+          >
+            <LandingIntro onComplete={handleIntroComplete} />
+          </motion.div>
+        ) : (
+          <div className="relative h-[100svh] md:min-h-screen md:h-auto w-screen bg-transparent overflow-hidden flex flex-col justify-center select-none">
+            {/* Doctor Strange spark mouse trails */}
+            <SparksEffect />
+            
+            {/* Solid black background for opening page */}
+            <SketchfabBackground />
 
-          <main className="relative z-10 flex flex-col justify-center w-full h-full md:min-h-full lg:h-full">
-            <OpeningPage onEnter={handleEnter} isEntered={stage !== "portal"} />
-          </main>
-
-          {/* Screen Transition Animation Stages */}
-          {(stage === "transition" || stage === "dissolve") && (
+            {/* Opening Page (Fades out when transition starts) */}
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
-              className="fixed inset-0 z-50 flex items-center justify-center bg-black flex-col pointer-events-none"
+              animate={stage === "fade_out" ? { opacity: 0 } : { opacity: 1 }}
+              transition={{ duration: 0.8, ease: "easeInOut" }}
+              className="relative z-10 flex flex-col justify-center w-full h-full md:min-h-full lg:h-full pointer-events-auto"
             >
-              <div className="flex items-center justify-center font-boska font-black text-4xl sm:text-6xl md:text-8xl tracking-widest uppercase">
-                {word.split("").map((letter, idx) => (
-                  <motion.span
-                    key={idx}
-                    initial={{ scale: 0, opacity: 0, filter: "blur(8px)" }}
-                    animate={
-                      idx <= visibleLetters 
-                        ? stage === "dissolve"
-                          ? { scale: 1.15, opacity: 0, filter: "blur(12px)", transition: { duration: 0.8, ease: "easeIn" } }
-                          : { scale: 1, opacity: 1, filter: "blur(0px)" }
-                        : {}
-                    }
-                    transition={{
-                      type: "spring",
-                      stiffness: 120,
-                      damping: 18,
-                    }}
-                    className="text-[#d9040b] drop-shadow-[0_0_35px_rgba(217,4,11,0.85)] inline-block select-none text-glow-red"
-                  >
-                    {letter}
-                  </motion.span>
-                ))}
-              </div>
+              <main className="relative z-10 flex flex-col justify-center w-full h-full md:min-h-full lg:h-full">
+                <OpeningPage onEnter={handleEnter} isEntered={stage !== "opening"} />
+              </main>
             </motion.div>
-          )}
-        </motion.div>
-      )}
-    </AnimatePresence>
+
+            {/* Solid Black Screen fades in on Enter click */}
+            <AnimatePresence>
+              {stage === "fade_out" && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.8, ease: "easeInOut" }}
+                  className="fixed inset-0 z-50 bg-black pointer-events-none"
+                />
+              )}
+            </AnimatePresence>
+          </div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }

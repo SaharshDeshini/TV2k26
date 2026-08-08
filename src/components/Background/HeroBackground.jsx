@@ -12,32 +12,33 @@ import { GOLDEN_EASE } from '../../animations/variants';
  * Preserves visual depth through subtle overlays, glows, and atmospheric haze.
  */
 export default function HeroBackground({ isMobile = false, delay = 0.3, accent, animateState = 'hidden' }) {
+  const isTransitionCompleted = typeof window !== 'undefined' && window.__introTransitionComplete;
+
   const parentVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        duration: 1.8,
+      transition: isTransitionCompleted ? { duration: 0 } : {
+        duration: 2.2,
         delay,
-        ease: GOLDEN_EASE,
-        staggerChildren: 0.1,
+        ease: [0.16, 1, 0.3, 1],
       },
     },
   };
 
   const childDotVariants = {
-    hidden: { scale: 0, opacity: 0 },
+    hidden: { scale: 0.9, opacity: 0 },
     visible: {
       scale: 1,
       opacity: 1,
-      transition: { type: 'spring', stiffness: 200, damping: 18 },
+      transition: isTransitionCompleted ? { duration: 0 } : { duration: 1.5, ease: [0.16, 1, 0.3, 1] },
     },
   };
 
   return (
     <motion.div
       variants={parentVariants}
-      initial="hidden"
+      initial={isTransitionCompleted ? "visible" : "hidden"}
       animate={animateState}
       className="relative w-full h-full overflow-hidden pointer-events-none select-none"
       style={{ backgroundColor: 'transparent' }}

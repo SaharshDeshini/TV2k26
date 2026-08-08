@@ -25,53 +25,113 @@ export default function Home() {
   );
 }
 
-function HomeContent() {
+export function HomeContent() {
   const { setIsLoaderFinished, setIsLoaderExiting } = useApp();
-  const [mounted, setMounted] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [stage, setStage] = useState("transition");
-  const [visibleLetters, setVisibleLetters] = useState(-1);
+  const [mounted, setMounted] = useState(() => {
+    if (typeof window !== "undefined") {
+      return !!window.__hasShownIntro;
+    }
+    return false;
+  });
+  const [isLoading, setIsLoading] = useState(() => {
+    if (typeof window !== "undefined") {
+      return !window.__hasShownIntro;
+    }
+    return true;
+  });
+  const [stage, setStage] = useState(() => {
+    if (typeof window !== "undefined") {
+      if (window.__startCinematic) return "cinematic";
+      return "refresh";
+    }
+    return "transition";
+  });
+  const [introPhase, setIntroPhase] = useState(() => {
+    if (typeof window !== "undefined") {
+      if (window.__startCinematic) return "fadeout";
+      if (window.__introTransitionComplete) return "completed";
+      return "refresh_bg";
+    }
+    return "completed";
+  });
 
   useEffect(() => {
     document.title = "TECHNOVISTA 2K26 | VJ Data Questers";
+    setMounted(true);
     if (typeof window !== "undefined") {
-      const hasShownIntro = window.__hasShownIntro;
-      if (hasShownIntro) {
-        setIsLoading(false);
+      setIsLoading(false);
+      setIsLoaderExiting(true);
+      setIsLoaderFinished(true);
+
+      if (window.__introTransitionComplete) {
         setStage("completed");
-        setIsLoaderExiting(true);
-        setIsLoaderFinished(true);
-        setMounted(true);
-      } else {
-        // Play entry transition on cold load/reload
-        setMounted(true);
-        setIsLoading(true);
-        setStage("transition");
-        
-        const word = "TECHNOVISTA";
-        let index = 0;
-        const interval = setInterval(() => {
-          setVisibleLetters(index);
-          index++;
-          if (index >= word.length) {
-            clearInterval(interval);
-            
-            setTimeout(() => {
-              setStage("dissolve");
-              setIsLoaderExiting(true);
-              
-              setTimeout(() => {
-                setIsLoading(false);
-                setStage("completed");
-                setIsLoaderFinished(true);
-                window.__hasShownIntro = true;
-              }, 1200); // 1.2s dissolve mask duration
-            }, 1100);
-          }
-        }, 140);
+        setIntroPhase("completed");
+        document.documentElement.setAttribute('data-transition-complete', '');
+      } else if (!window.__startCinematic) {
+        setStage("refresh");
+        setIntroPhase("refresh_bg");
       }
     }
   }, [setIsLoaderFinished, setIsLoaderExiting]);
+
+  // Flow 1: Staged Cinematic Intro Timeline (Entry from Intro page)
+  useEffect(() => {
+    if (stage === "cinematic") {
+      const timerBeam           = setTimeout(() => setIntroPhase("beam"), 600);
+      const timerGoldEntry      = setTimeout(() => setIntroPhase("gold_entry"), 1800);
+      const timerRetract        = setTimeout(() => setIntroPhase("retract_anchor"), 4000);
+      const timerBgUnveil       = setTimeout(() => setIntroPhase("bg_unveil"), 5000);
+      const timerBadgesParticles= setTimeout(() => setIntroPhase("badges_particles"), 6200);
+      const timerReexpandMorph  = setTimeout(() => setIntroPhase("reexpand_morph"), 7400);
+      const timerFinalCta       = setTimeout(() => setIntroPhase("final_cta"), 8800);
+      const timerComplete       = setTimeout(() => {
+        setIntroPhase("completed");
+        setStage("completed");
+        if (typeof window !== "undefined") {
+          document.documentElement.setAttribute('data-transition-complete', '');
+          window.__introTransitionComplete = true;
+          window.__hasShownIntro = true;
+          delete window.__startCinematic;
+        }
+      }, 10000);
+
+      return () => {
+        clearTimeout(timerBeam);
+        clearTimeout(timerGoldEntry);
+        clearTimeout(timerRetract);
+        clearTimeout(timerBgUnveil);
+        clearTimeout(timerBadgesParticles);
+        clearTimeout(timerReexpandMorph);
+        clearTimeout(timerFinalCta);
+        clearTimeout(timerComplete);
+      };
+    }
+
+    // Flow 2: Direct Load / Refresh Timeline (~2.0s Total)
+    if (stage === "refresh") {
+      const tBeam      = setTimeout(() => setIntroPhase("refresh_beam"), 300);
+      const tParticles = setTimeout(() => setIntroPhase("refresh_particles"), 600);
+      const tTitle     = setTimeout(() => setIntroPhase("refresh_title"), 900);
+      const tSettle    = setTimeout(() => setIntroPhase("refresh_settle"), 1300);
+      const tComplete  = setTimeout(() => {
+        setIntroPhase("completed");
+        setStage("completed");
+        if (typeof window !== "undefined") {
+          document.documentElement.setAttribute('data-transition-complete', '');
+          window.__introTransitionComplete = true;
+          window.__hasShownIntro = true;
+        }
+      }, 2000);
+
+      return () => {
+        clearTimeout(tBeam);
+        clearTimeout(tParticles);
+        clearTimeout(tTitle);
+        clearTimeout(tSettle);
+        clearTimeout(tComplete);
+      };
+    }
+  }, [stage]);
 
   if (!mounted) {
     return <div className="min-h-screen bg-black" />;
@@ -93,47 +153,14 @@ function HomeContent() {
           <div className="relative z-10">
             {/* Relative container to keep content above background glows */}
             <div className="relative z-10">
-              <HeroSection />
+              <HeroSection introPhase={introPhase} />
               <EventHub />
             </div>
           </div>
         </main>
       </div>
 
-      {/* Screen Transition Animation Stages overlay (smooth dissolve fade-out) */}
-      {isLoading && (stage === "transition" || stage === "dissolve") && (
-        <motion.div 
-          initial={{ opacity: 1 }}
-          animate={stage === "dissolve" ? { opacity: 0 } : { opacity: 1 }}
-          transition={{ duration: 1.2, ease: "easeInOut" }}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black flex-col pointer-events-none"
-        >
-          {/* Staggered Title Text overlay */}
-          <div className="flex items-center justify-center font-boska font-black text-4xl sm:text-6xl md:text-8xl tracking-widest uppercase">
-            {word.split("").map((letter, idx) => (
-              <motion.span
-                key={idx}
-                initial={{ scale: 0, opacity: 0, filter: "blur(8px)" }}
-                animate={
-                  idx <= visibleLetters 
-                    ? stage === "dissolve"
-                      ? { scale: 1.15, opacity: 0, filter: "blur(12px)", transition: { duration: 0.8, ease: "easeIn" } }
-                      : { scale: 1, opacity: 1, filter: "blur(0px)" }
-                    : {}
-                }
-                transition={{
-                  type: "spring",
-                  stiffness: 150,
-                  damping: 10,
-                }}
-                className="text-[#d9040b] drop-shadow-[0_0_35px_rgba(217,4,11,0.85)] inline-block select-none text-glow-red"
-              >
-                {letter}
-              </motion.span>
-            ))}
-          </div>
-        </motion.div>
-      )}
+
     </div>
   );
 }

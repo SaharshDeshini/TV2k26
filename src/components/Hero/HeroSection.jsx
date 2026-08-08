@@ -42,7 +42,7 @@ function getChromaticColor(hex, shiftAmt = 24) {
  * Exposes a shared ScrollSceneContext scroll progress to drive a cinematic, 
  * 100% reversible, and continuous Hero -> About transition.
  */
-export default function HeroSection() {
+export default function HeroSection({ introPhase = "completed" }) {
   const { isLoaderFinished, isLoaderExiting } = useApp();
   const {
     themeName,
@@ -98,16 +98,20 @@ export default function HeroSection() {
 
   const viewportTier = width >= 1024 ? 'desktop' : width >= 768 ? 'tablet' : 'mobile';
 
-  // Entrance triggers the moment loading screen starts exiting/dissolving
-  const entranceReady = isLoaderExiting || isLoaderFinished;
+  const [isTransitionCompleted] = useState(() => typeof window !== 'undefined' && (window.__introTransitionComplete || window.__hasShownIntro) && !window.__startCinematic);
+  const isCinematic = typeof window !== 'undefined' && window.__startCinematic;
+  const getDelay = (baseDelay) => isCinematic ? Math.max(0, baseDelay - 1.5) : baseDelay;
+
+  // Entrance triggers the moment loading screen starts exiting/dissolving or transition completed
+  const entranceReady = isLoaderExiting || isLoaderFinished || isTransitionCompleted;
   const animateState = entranceReady ? 'visible' : 'hidden';
 
   // Delay mouse parallax activation until 2.4s after exit begins
-  const [parallaxActive, setParallaxActive] = useState(false);
+  const [parallaxActive, setParallaxActive] = useState(isTransitionCompleted);
   const isTransitioning = false;
-  const [isSearching, setIsSearching] = useState(false);
-  const [isEntranceComplete, setIsEntranceComplete] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isSearching, setIsSearching] = useState(isTransitionCompleted);
+  const [isEntranceComplete, setIsEntranceComplete] = useState(isTransitionCompleted);
+  const [isOpen, setIsOpen] = useState(isTransitionCompleted);
 
   const handleScrollDown = () => {
     const isMobile = window.innerWidth < 768;
@@ -128,6 +132,7 @@ export default function HeroSection() {
 
   useEffect(() => {
     if (!entranceReady) return;
+    if (isTransitionCompleted) return;
     const timer = setTimeout(() => setParallaxActive(true), 2400);
     const timerReveal = setTimeout(() => {
       setIsSearching(true);
@@ -141,10 +146,10 @@ export default function HeroSection() {
       clearTimeout(timerReveal);
       clearTimeout(timerEntrance);
     };
-  }, [entranceReady]);
+  }, [entranceReady, isTransitionCompleted]);
 
   useEffect(() => {
-    let cAngle = -32;
+    let cAngle = 0;
     let tx = window.innerWidth / 2;
     let cx = window.innerWidth / 2;
     let cy = window.innerHeight / 2;
@@ -204,9 +209,34 @@ export default function HeroSection() {
             isEntranceComplete ? 'entrance-complete' : ''
           ].filter(Boolean).join(' ')}
         >
+          {/* Hero Background behind curtain */}
+          <motion.div style={{ opacity: bgOpacity }} className="absolute inset-0 -z-30">
+            <HeroBackground
+              isMobile={isMobile}
+              delay={0.1}
+              accent={accent}
+              animateState={
+                ["bg_unveil", "badges_particles", "reexpand_morph", "final_cta", "completed", "refresh_bg", "refresh_beam", "refresh_particles", "refresh_title", "refresh_settle"].includes(introPhase)
+                  ? 'visible'
+                  : "hidden"
+              }
+            />
+          </motion.div>
+
+          {/* Black Screen Overlay for Cinematic Intro (in front of HeroBackground, behind Beam/Title) */}
+          {!["completed", "refresh_bg", "refresh_beam", "refresh_particles", "refresh_title", "refresh_settle"].includes(introPhase) && (
+            <motion.div
+              initial={{ opacity: 1 }}
+              animate={{
+                opacity: ["bg_unveil", "badges_particles", "reexpand_morph", "final_cta"].includes(introPhase) ? 0 : 1
+              }}
+              transition={{ duration: 1.4, ease: "easeInOut" }}
+              className="absolute inset-0 -z-20 bg-black pointer-events-none"
+            />
+          )}
+
           <motion.div style={{ opacity: bgOpacity }} className="absolute inset-0 -z-10">
-            <HeroBackground isMobile={isMobile} delay={0.1} accent={accent} animateState={animateState} />
-            <VolumetricBeam isMobile={isMobile} animateState={isOpen ? 'visible' : 'hidden'} />
+            <VolumetricBeam isMobile={isMobile} animateState={animateState} introPhase={introPhase} />
           </motion.div>
 
           {!isMobile && (
@@ -217,7 +247,8 @@ export default function HeroSection() {
               viewportTier={viewportTier}
               accent={accent}
               delay={3.4}
-              animateState={isOpen ? 'visible' : 'hidden'}
+              animateState={animateState}
+              introPhase={introPhase}
             />
           )}
 
@@ -225,13 +256,14 @@ export default function HeroSection() {
             <motion.div style={{ y: logosY, opacity: logosOpacity }} className="absolute inset-0 z-30 pointer-events-none">
               <HeroLogos
                 isMobile={isMobile}
-                delay={3.4}
+                delay={getDelay(1.5)}
                 accent={accent}
                 animateState={isOpen ? 'visible' : 'hidden'}
                 mouseX={mx}
                 mouseY={my}
                 isTouch={isTouch}
                 isTransitioning={isTransitioning}
+                introPhase={introPhase}
               />
             </motion.div>
 
@@ -243,7 +275,8 @@ export default function HeroSection() {
                 isTouch={isTouch}
                 isMobile={isMobile}
                 delay={0.2}
-                animateState={isOpen ? 'visible' : 'hidden'}
+                animateState={animateState}
+                introPhase={introPhase}
               />
             </motion.div>
 
@@ -254,8 +287,9 @@ export default function HeroSection() {
               isMobile={isMobile}
               viewportTier={viewportTier}
               accent={accent}
-              delay={3.0}
-              animateState={isOpen ? 'visible' : 'hidden'}
+              delay={getDelay(1.0)}
+              animateState={animateState}
+              introPhase={introPhase}
             />
 
             <HeroFloatingObjects
@@ -265,8 +299,9 @@ export default function HeroSection() {
               isMobile={isMobile}
               viewportTier={viewportTier}
               accent={accent}
-              delay={3.2}
-              animateState={isOpen ? 'visible' : 'hidden'}
+              delay={getDelay(1.0)}
+              animateState={animateState}
+              introPhase={introPhase}
             />
 
             <motion.div style={{ y: featY, scale: featScale, opacity: featOpacity }} className="absolute inset-0 pointer-events-none">
@@ -277,8 +312,9 @@ export default function HeroSection() {
                 mouseX={mx}
                 mouseY={my}
                 isTouch={isTouch}
-                delay={2.8}
-                animateState={isOpen ? 'visible' : 'hidden'}
+                delay={getDelay(1.0)}
+                animateState={animateState}
+                introPhase={introPhase}
               />
             </motion.div>
 
@@ -296,68 +332,74 @@ export default function HeroSection() {
                   startDate={startDate}
                   countdownVisible={countdownVisible}
                   accent={accent}
-                  delay={0.6}
-                  animateState={isOpen ? 'visible' : 'hidden'}
+                  delay={getDelay(2.0)}
+                  animateState={animateState}
                   isTransitioning={isTransitioning}
+                  introPhase={introPhase}
                 />
 
                 <HeroTitle
                   isMobile={isMobile}
                   themeName={themeName}
                   accent={accent}
-                  delayTitle={1.0}
-                  delayText={1.8}
-                  delayButtons={2.4}
-                  animateState={isOpen ? 'visible' : 'hidden'}
+                  delayTitle={getDelay(2.5)}
+                  delayText={getDelay(3.5)}
+                  delayButtons={getDelay(3.8)}
+                  animateState={animateState}
                   isTransitioning={isTransitioning}
+                  introPhase={introPhase}
                 />
               </motion.div>
             </div>
           </div>
 
           <motion.div
-            style={{ opacity: arrowOpacity }}
-            className="tv-scroll-cue absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2.5 cursor-pointer pointer-events-auto group"
-            onClick={handleScrollDown}
-            initial={{ opacity: 0, y: 15 }}
-            animate={entranceReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
-            transition={{ duration: 1.0, delay: 2.4, ease: GOLDEN_EASE }}
+            initial={isTransitionCompleted ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+            animate={introPhase === "completed" && entranceReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+            transition={isTransitionCompleted ? { duration: 0 } : { duration: 1.0, delay: 0.2, ease: GOLDEN_EASE }}
+            className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 pointer-events-auto"
           >
-            <motion.span 
-              animate={{ opacity: [0.45, 0.75, 0.45] }} // Quieter visibility pulse bounds
-              transition={{ duration: 3.0, repeat: Infinity, ease: 'easeInOut' }}
-              className="text-[9px] sm:text-[10px] tracking-[0.25em] uppercase font-mono text-white/40 group-hover:text-white transition-colors duration-300 select-none"
+            <motion.div
+              style={{ opacity: arrowOpacity }}
+              className="tv-scroll-cue flex flex-col items-center gap-2.5 cursor-pointer group"
+              onClick={handleScrollDown}
             >
-              Scroll to Explore
-            </motion.span>
-            
-            <motion.svg
-              width="10"
-              height="6"
-              viewBox="0 0 10 6"
-              fill="none"
-              stroke="rgba(255, 201, 88, 0.55)" // Muted warm amber accent stroke
-              className="group-hover:stroke-white transition-colors duration-300"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              animate={{
-                y: [0, 5, 0],
-                opacity: [0.35, 0.85, 0.35],
-                filter: [
-                  'drop-shadow(0 0 1px rgba(255, 201, 88, 0.1))',
-                  'drop-shadow(0 0 4px rgba(255, 201, 88, 0.5))',
-                  'drop-shadow(0 0 1px rgba(255, 201, 88, 0.1))'
-                ]
-              }}
-              transition={{
-                duration: 2.5,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              }}
-            >
-              <path d="M1 1L5 5L9 1" />
-            </motion.svg>
+              <motion.span 
+                animate={{ opacity: [0.45, 0.75, 0.45] }}
+                transition={{ duration: 3.0, repeat: Infinity, ease: 'easeInOut' }}
+                className="text-[9px] sm:text-[10px] tracking-[0.25em] uppercase font-mono text-white/40 group-hover:text-white transition-colors duration-300 select-none"
+              >
+                Scroll to Explore
+              </motion.span>
+              
+              <motion.svg
+                width="10"
+                height="6"
+                viewBox="0 0 10 6"
+                fill="none"
+                stroke="rgba(255, 201, 88, 0.55)"
+                className="group-hover:stroke-white transition-colors duration-300"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                animate={{
+                  y: [0, 5, 0],
+                  opacity: [0.35, 0.85, 0.35],
+                  filter: [
+                    'drop-shadow(0 0 1px rgba(255, 201, 88, 0.1))',
+                    'drop-shadow(0 0 4px rgba(255, 201, 88, 0.5))',
+                    'drop-shadow(0 0 1px rgba(255, 201, 88, 0.1))'
+                  ]
+                }}
+                transition={{
+                  duration: 2.5,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+              >
+                <path d="M1 1L5 5L9 1" />
+              </motion.svg>
+            </motion.div>
           </motion.div>
 
           {!isMobile && <AboutSection isMobile={false} />}

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useState,  useMemo } from 'react';
 import { motion, useTransform } from 'framer-motion';
 import { GOLDEN_EASE } from '../../animations/variants';
 import { useHeroScroll } from '../../contexts/HeroScrollContext';
@@ -116,6 +116,7 @@ export default function HeroFloatingObjects({
   accent = '#ffffff',
   delay = 0.6,
   animateState = 'hidden',
+  introPhase = "completed"
 }) {
   const counts = { desktop: 9, tablet: 6, mobile: 2 }; // Half count per side (mobile: 2 per side = 4 total)
   const halfCount = counts[viewportTier] || counts.desktop;
@@ -265,6 +266,7 @@ export default function HeroFloatingObjects({
           delay={delay}
           animateState={animateState}
           isBrightened={isMobile ? false : brightenedIndex === i}
+          introPhase={introPhase}
         />
       ))}
     </div>
@@ -287,8 +289,11 @@ function FloatingObjectItem({
   hsl,
   delay,
   animateState,
-  isBrightened
+  isBrightened,
+  introPhase
 }) {
+  const [isTransitionCompleted] = useState(() => typeof window !== 'undefined' && window.__introTransitionComplete && !window.__startCinematic);
+
   // Exit progress mapping (Movement starts at 0.0, ends at 0.85)
   const exitProgress = useTransform(sceneProgress, [0, 0.85], [0, 1]);
 
@@ -316,15 +321,30 @@ function FloatingObjectItem({
 
   const itemVariants = {
     hidden: { opacity: 0, scale: 0.85 },
-    visible: (custom) => ({
+    fadeout: { opacity: 0, scale: 0.85 },
+    beam: { opacity: 0, scale: 0.85 },
+    gold_entry: { opacity: 0, scale: 0.85 },
+    retract_anchor: { opacity: 0, scale: 0.85 },
+    bg_unveil: { opacity: 0, scale: 0.85 },
+    badges_particles: (custom) => ({
       opacity: custom.opacity,
       scale: 1,
-      transition: {
-        duration: 1.6,
-        delay: custom.delay,
-        ease: GOLDEN_EASE,
-      },
+      transition: { duration: 1.4, delay: custom.delay * 0.5, ease: [0.16, 1, 0.3, 1] },
     }),
+    reexpand_morph: (custom) => ({ opacity: custom.opacity, scale: 1 }),
+    final_cta: (custom) => ({ opacity: custom.opacity, scale: 1 }),
+    completed: (custom) => ({ opacity: custom.opacity, scale: 1, transition: { duration: 0 } }),
+    visible: (custom) => ({ opacity: custom.opacity, scale: 1, transition: { duration: 0 } }),
+
+    refresh_bg: { opacity: 0, scale: 0.85 },
+    refresh_beam: { opacity: 0, scale: 0.85 },
+    refresh_particles: (custom) => ({
+      opacity: custom.opacity,
+      scale: 1,
+      transition: { duration: 1.0, delay: custom.delay * 0.3, ease: [0.16, 1, 0.3, 1] },
+    }),
+    refresh_title: (custom) => ({ opacity: custom.opacity, scale: 1 }),
+    refresh_settle: (custom) => ({ opacity: custom.opacity, scale: 1 }),
   };
 
   return (
@@ -341,8 +361,8 @@ function FloatingObjectItem({
       <motion.div
         variants={itemVariants}
         custom={{ opacity: 1.0, delay: delay + index * 0.08 }}
-        initial="hidden"
-        animate={animateState}
+        initial={isTransitionCompleted && introPhase === "completed" ? "visible" : "hidden"}
+        animate={introPhase !== "completed" ? introPhase : animateState}
       >
         {/* Parallax and camera effects container */}
         <div

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence, useTransform } from 'framer-motion';
 import { useCountdown } from '../../hooks/useCountdown';
 import { GOLDEN_EASE } from '../../animations/variants';
@@ -17,6 +17,7 @@ export default function HeroCountdown({
   delay = 0.9,
   animateState = 'hidden',
   isTransitioning = false, // Day transition state intercept
+  introPhase = "completed"
 }) {
   const timeLeft = useCountdown(`${startDate}T09:00:00`);
   const sceneProgress = useHeroScroll();
@@ -35,20 +36,46 @@ export default function HeroCountdown({
     { label: 'SEC', value: padTwo(timeLeft.seconds) },
   ];
 
+  const [isTransitionCompleted] = useState(() => typeof window !== 'undefined' && window.__introTransitionComplete && !window.__startCinematic);
+
+
   const pillVariants = {
     hidden: { opacity: 0, y: 12 },
     visible: {
       opacity: 1,
       y: [0, -5, 0],
       transition: {
-        opacity: { duration: 1.0, delay, ease: GOLDEN_EASE },
-        y: {
-          duration: 7.5,
-          repeat: Infinity,
-          ease: 'easeInOut',
-          delay: delay,
-        }
+        opacity: { duration: 0 },
+        y: { duration: 7.5, repeat: Infinity, ease: 'easeInOut' }
       }
+    }
+  };
+
+  const cinematicElementsVariants = {
+    hidden: { opacity: 0, y: 20 },
+    fadeout: { opacity: 0, y: 20 },
+    beam: { opacity: 0, y: 20 },
+    gold_entry: { opacity: 0, y: 20 },
+    retract_anchor: { opacity: 0, y: 20 },
+    bg_unveil: { opacity: 0, y: 20 },
+    badges_particles: { opacity: 0, y: 20 },
+    reexpand_morph: { opacity: 0, y: 20 },
+    final_cta: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }
+    },
+    completed: { opacity: 1, y: 0, transition: { duration: 0 } },
+    visible: { opacity: 1, y: 0, transition: { duration: 0 } },
+
+    refresh_bg: { opacity: 0, y: 20 },
+    refresh_beam: { opacity: 0, y: 20 },
+    refresh_particles: { opacity: 0, y: 20 },
+    refresh_title: { opacity: 0, y: 20 },
+    refresh_settle: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
     }
   };
 
@@ -60,14 +87,14 @@ export default function HeroCountdown({
           className={`${isMobile ? 'mb-10 mt-0' : 'mb-4 sm:mb-8 mt-[-34px]'}`}
         >
           <motion.div
-            variants={pillVariants}
-            initial="hidden"
+            variants={introPhase !== "completed" ? cinematicElementsVariants : pillVariants}
+            initial={isTransitionCompleted && introPhase === "completed" ? "visible" : "hidden"}
             animate={
-              isTransitioning 
+              introPhase !== "completed" ? introPhase : (isTransitioning 
                 ? { opacity: 0.25, scale: 0.94, y: -8 } 
-                : animateState
+                : animateState)
             }
-            transition={{ duration: 0.6, ease: 'easeInOut' }}
+            transition={introPhase === "completed" && !isTransitioning ? undefined : { duration: 0.6, ease: 'easeInOut' }}
             exit={{ opacity: 0, y: -8, transition: { duration: 0.6, ease: GOLDEN_EASE } }}
           >
             <motion.div 
