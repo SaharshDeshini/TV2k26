@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function LandingIntro({ onComplete }) {
@@ -8,6 +8,15 @@ export default function LandingIntro({ onComplete }) {
   const [stage, setStage] = useState(0); // 0: loading/playing, 1: fade-out
   const [isMobile, setIsMobile] = useState(false);
   const [particles, setParticles] = useState([]);
+  // Guard: ensure onComplete fires exactly once regardless of which path triggers it
+  const hasCompleted = useRef(false);
+
+  const triggerComplete = () => {
+    if (hasCompleted.current) return;
+    hasCompleted.current = true;
+    setStage(1);
+    onComplete();
+  };
 
   useEffect(() => {
     const textTimer = setTimeout(() => {
@@ -19,23 +28,25 @@ export default function LandingIntro({ onComplete }) {
       setShowText(false);
     }, 3700);
 
-    // Trigger page entrance transition after 4.6 seconds
+    // At 4.6s: start the fade-out AND mount the opening page simultaneously
+    // so there is zero dead-air gap between portal and opening page.
     const exitTimer = setTimeout(() => {
-      setStage(1);
+      triggerComplete();
     }, 4600);
 
-    // Complete loader and enter main landing page after 5.2 seconds
-    const completeTimer = setTimeout(() => {
-      onComplete();
-    }, 5200);
+    // Hard fallback — only fires if neither exitTimer nor video onEnded ran
+    const fallbackTimer = setTimeout(() => {
+      triggerComplete();
+    }, 8000);
 
     return () => {
       clearTimeout(textTimer);
       clearTimeout(textExitTimer);
       clearTimeout(exitTimer);
-      clearTimeout(completeTimer);
+      clearTimeout(fallbackTimer);
     };
-  }, [onComplete]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -82,10 +93,8 @@ export default function LandingIntro({ onComplete }) {
   }, [isMobile]);
 
   const handleVideoEnded = () => {
-    setStage(1);
-    setTimeout(() => {
-      onComplete();
-    }, 600); // Allow fade-out animation to complete
+    // Triggers setStage(1) + onComplete() simultaneously, guarded against double-fire
+    triggerComplete();
   };
 
   return (

@@ -44,7 +44,7 @@ export default function HeroTitle({
   // CTA Buttons: Y and fade with proportional mobile distances
   const buttonsY = useTransform(sceneProgress, [0, 0.30], [0, isMobile ? -30 : -100]);
   const buttonsOpacity = useTransform(sceneProgress, [0, 0.08, 0.30], [1, 1, 0]);
-  const buttonsPointerEvents = useTransform(sceneProgress, (p) => p > 0.30 ? 'none' : 'auto');
+  const buttonsPointerEvents = useTransform(sceneProgress, (p) => (p > 0.30 || !["final_cta", "completed", "refresh_settle"].includes(introPhase)) ? 'none' : 'auto');
 
   const [isTransitionCompleted] = useState(() => typeof window !== 'undefined' && window.__introTransitionComplete && !window.__startCinematic);
 
@@ -83,7 +83,7 @@ export default function HeroTitle({
     retract_anchor: { opacity: 1 },
     bg_unveil: { opacity: 1 },
     badges_particles: { opacity: 1 },
-    reexpand_morph: { opacity: 0, transition: { duration: 1.4, ease: "easeInOut" } },
+    reexpand_morph: { opacity: [1, 0.85, 0], transition: { duration: 1.4, times: [0, 0.6, 1], ease: "easeInOut" } },
     final_cta: { opacity: 0 },
     completed: { opacity: 0 },
     visible: { opacity: 0 },
@@ -103,7 +103,7 @@ export default function HeroTitle({
     retract_anchor: { opacity: 0 },
     bg_unveil: { opacity: 0 },
     badges_particles: { opacity: 0 },
-    reexpand_morph: { opacity: 1, transition: { duration: 1.4, ease: "easeInOut" } },
+    reexpand_morph: { opacity: [0, 0.35, 1], transition: { duration: 1.4, times: [0, 0.4, 1], ease: "easeInOut" } },
     final_cta: { opacity: 1 },
     completed: { opacity: 1, transition: { duration: 0 } },
     visible: { opacity: 1, transition: { duration: 0 } },
@@ -129,7 +129,7 @@ export default function HeroTitle({
     bg_unveil: { opacity: 0, y: 15 },
     badges_particles: { opacity: 0, y: 15 },
     reexpand_morph: { opacity: 0, y: 15 },
-    final_cta: { opacity: 1, y: 0, transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] } },
+    final_cta: { opacity: 1, y: 0, transition: { duration: 0.9, delay: 0.0, ease: [0.16, 1, 0.3, 1] } },
     completed: { opacity: 1, y: 0, transition: { duration: 0 } },
     visible: { opacity: 1, y: 0, transition: { duration: 0 } },
 
@@ -149,7 +149,7 @@ export default function HeroTitle({
     bg_unveil: { opacity: 0, y: 12 },
     badges_particles: { opacity: 0, y: 12 },
     reexpand_morph: { opacity: 0, y: 12 },
-    final_cta: { opacity: 1, y: 0, transition: { duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] } },
+    final_cta: { opacity: 1, y: 0, transition: { duration: 0.9, delay: 0.4, ease: [0.16, 1, 0.3, 1] } },
     completed: { opacity: 1, y: 0, transition: { duration: 0 } },
     visible: { opacity: 1, y: 0, transition: { duration: 0 } },
 
@@ -158,6 +158,26 @@ export default function HeroTitle({
     refresh_particles: { opacity: 0, y: 12 },
     refresh_title: { opacity: 0, y: 12 },
     refresh_settle: { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] } }
+  };
+
+  const secondaryButtonVariants = {
+    hidden: { opacity: 0, y: 12 },
+    fadeout: { opacity: 0, y: 12 },
+    beam: { opacity: 0, y: 12 },
+    gold_entry: { opacity: 0, y: 12 },
+    retract_anchor: { opacity: 0, y: 12 },
+    bg_unveil: { opacity: 0, y: 12 },
+    badges_particles: { opacity: 0, y: 12 },
+    reexpand_morph: { opacity: 0, y: 12 },
+    final_cta: { opacity: 1, y: 0, transition: { duration: 0.9, delay: 0.55, ease: [0.16, 1, 0.3, 1] } },
+    completed: { opacity: 1, y: 0, transition: { duration: 0 } },
+    visible: { opacity: 1, y: 0, transition: { duration: 0 } },
+
+    refresh_bg: { opacity: 0, y: 12 },
+    refresh_beam: { opacity: 0, y: 12 },
+    refresh_particles: { opacity: 0, y: 12 },
+    refresh_title: { opacity: 0, y: 12 },
+    refresh_settle: { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.30, ease: [0.16, 1, 0.3, 1] } }
   };
 
   const titleLetters = Array.from("TECHNOVISTA");
@@ -249,7 +269,7 @@ export default function HeroTitle({
                     }
               }
               transition={{
-                duration: 2.0,
+                duration: introPhase.startsWith('refresh_') ? 0.5 : 2.0,
                 ease: [0.16, 1, 0.3, 1]
               }}
               className="relative inline-flex select-none"
@@ -400,7 +420,7 @@ export default function HeroTitle({
               variants={{
                 hover: { x: '150%' }
               }}
-              initial={{ x: '-150%', skewX: -25 }}
+              initial={{ x: '-150%', skewX: -32 }}
               transition={{ duration: 1.1, ease: [0.19, 1, 0.22, 1] }}
               className="absolute inset-0 pointer-events-none"
               style={{
@@ -416,6 +436,20 @@ export default function HeroTitle({
               onClick={handleExploreClick}
               whileHover="hover"
               whileTap={{ scale: 0.97, y: 0 }}
+              variants={{
+                ...secondaryButtonVariants,
+                hover: {
+                  y: -2, // Lift by exactly 2px
+                  borderColor: 'rgba(243, 229, 202, 0.25)', // Subtle warm border highlight
+                  backgroundColor: 'rgba(255, 255, 255, 0.08)', // Brighter glass
+                  color: '#ffffff',
+                  boxShadow: '0 4px 12px rgba(243, 229, 202, 0.05), 0 8px 24px rgba(0, 0, 0, 0.30), inset 0 1px 1px rgba(255, 255, 255, 0.12)',
+                }
+              }}
+              initial={isTransitionCompleted && introPhase === "completed" ? "visible" : "hidden"}
+              animate={introPhase !== "completed" ? introPhase : (isTransitioning
+                ? { opacity: 0.15, scale: 0.93, y: 10 }
+                : (isVisible ? 'visible' : 'hidden'))}
               className={`group relative border font-heading font-semibold uppercase text-[11px] sm:text-xs rounded-full cursor-pointer overflow-hidden text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20 focus-visible:ring-offset-2 focus-visible:ring-offset-black ${isMobile ? 'w-full px-6 py-4 min-h-[50px]' : 'px-8.5 py-3.5'}`}
               style={{
                 backgroundColor: 'rgba(255, 255, 255, 0.03)', // Translucent glass
@@ -426,15 +460,6 @@ export default function HeroTitle({
                 letterSpacing: '0.16em', // Base spacing
                 boxShadow: '0 4px 16px rgba(0, 0, 0, 0.20), inset 0 1px 1px rgba(255, 255, 255, 0.05)',
                 transition: 'background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, color 0.4s ease',
-              }}
-              variants={{
-                hover: {
-                  y: -2, // Lift by exactly 2px
-                  borderColor: 'rgba(243, 229, 202, 0.25)', // Subtle warm border highlight
-                  backgroundColor: 'rgba(255, 255, 255, 0.08)', // Brighter glass
-                  color: '#ffffff',
-                  boxShadow: '0 4px 12px rgba(243, 229, 202, 0.05), 0 8px 24px rgba(0, 0, 0, 0.30), inset 0 1px 1px rgba(255, 255, 255, 0.12)',
-                }
               }}
             >
               <span className="relative z-10 flex items-center justify-center gap-2">
@@ -459,7 +484,7 @@ export default function HeroTitle({
                 variants={{
                   hover: { x: '150%' }
                 }}
-                initial={{ x: '-150%', skewX: -25 }}
+                initial={{ x: '-150%', skewX: -32 }}
                 transition={{ duration: 1.1, ease: [0.19, 1, 0.22, 1] }}
                 className="absolute inset-0 pointer-events-none"
                 style={{

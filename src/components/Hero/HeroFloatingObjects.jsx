@@ -319,32 +319,37 @@ function FloatingObjectItem({
   const rotMouse = isTouch ? 0 : (mouseX - mouseY) * obj.depth * 0.18;
   const scaleMouse = isTouch ? 1 : 1 + Math.abs(mouseX + mouseY) * 0.0006;
 
+  const depthTierDelay = obj.sizeClass === 'large' ? 0.24 : (obj.sizeClass === 'small' ? 0.0 : 0.12);
+  const depthTierY = obj.sizeClass === 'large' ? 15 : (obj.sizeClass === 'small' ? 35 : 25);
+
   const itemVariants = {
-    hidden: { opacity: 0, scale: 0.85 },
-    fadeout: { opacity: 0, scale: 0.85 },
-    beam: { opacity: 0, scale: 0.85 },
-    gold_entry: { opacity: 0, scale: 0.85 },
-    retract_anchor: { opacity: 0, scale: 0.85 },
-    bg_unveil: { opacity: 0, scale: 0.85 },
+    hidden: { opacity: 0, scale: 0.85, y: depthTierY },
+    fadeout: { opacity: 0, scale: 0.85, y: depthTierY },
+    beam: { opacity: 0, scale: 0.85, y: depthTierY },
+    gold_entry: { opacity: 0, scale: 0.85, y: depthTierY },
+    retract_anchor: { opacity: 0, scale: 0.85, y: depthTierY },
+    bg_unveil: { opacity: 0, scale: 0.85, y: depthTierY },
     badges_particles: (custom) => ({
       opacity: custom.opacity,
       scale: 1,
-      transition: { duration: 1.4, delay: custom.delay * 0.5, ease: [0.16, 1, 0.3, 1] },
+      y: 0,
+      transition: { duration: 1.4, delay: custom.delay + depthTierDelay, ease: [0.16, 1, 0.3, 1] },
     }),
-    reexpand_morph: (custom) => ({ opacity: custom.opacity, scale: 1 }),
-    final_cta: (custom) => ({ opacity: custom.opacity, scale: 1 }),
-    completed: (custom) => ({ opacity: custom.opacity, scale: 1, transition: { duration: 0 } }),
-    visible: (custom) => ({ opacity: custom.opacity, scale: 1, transition: { duration: 0 } }),
+    reexpand_morph: (custom) => ({ opacity: custom.opacity, scale: 1, y: 0 }),
+    final_cta: (custom) => ({ opacity: custom.opacity, scale: 1, y: 0 }),
+    completed: (custom) => ({ opacity: custom.opacity, scale: 1, y: 0, transition: { duration: 0 } }),
+    visible: (custom) => ({ opacity: custom.opacity, scale: 1, y: 0, transition: { duration: 0 } }),
 
-    refresh_bg: { opacity: 0, scale: 0.85 },
-    refresh_beam: { opacity: 0, scale: 0.85 },
+    refresh_bg: { opacity: 0, scale: 0.85, y: depthTierY },
+    refresh_beam: { opacity: 0, scale: 0.85, y: depthTierY },
     refresh_particles: (custom) => ({
       opacity: custom.opacity,
       scale: 1,
-      transition: { duration: 1.0, delay: custom.delay * 0.3, ease: [0.16, 1, 0.3, 1] },
+      y: 0,
+      transition: { duration: 1.0, delay: custom.delay * 0.3 + depthTierDelay, ease: [0.16, 1, 0.3, 1] },
     }),
-    refresh_title: (custom) => ({ opacity: custom.opacity, scale: 1 }),
-    refresh_settle: (custom) => ({ opacity: custom.opacity, scale: 1 }),
+    refresh_title: (custom) => ({ opacity: custom.opacity, scale: 1, y: 0 }),
+    refresh_settle: (custom) => ({ opacity: custom.opacity, scale: 1, y: 0 }),
   };
 
   return (
@@ -360,7 +365,7 @@ function FloatingObjectItem({
     >
       <motion.div
         variants={itemVariants}
-        custom={{ opacity: 1.0, delay: delay + index * 0.08 }}
+        custom={{ opacity: 1.0, delay: delay + index * 0.05 }}
         initial={isTransitionCompleted && introPhase === "completed" ? "visible" : "hidden"}
         animate={introPhase !== "completed" ? introPhase : animateState}
       >

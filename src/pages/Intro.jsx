@@ -62,7 +62,7 @@ function IntroContent() {
         window.__hasShownIntro = true;
       }
       navigate('/home');
-    }, 600); // 600ms black dissolve bridge
+    }, 700); // 700ms spatial elevation bridge
   };
 
   if (!mounted) {
@@ -80,7 +80,7 @@ function IntroContent() {
           <motion.div
             key="portal-loader"
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
             className="fixed inset-0 z-[100]"
           >
             <LandingIntro onComplete={handleIntroComplete} />
@@ -95,8 +95,10 @@ function IntroContent() {
 
             {/* Opening Page (Fades out when transition starts) */}
             <motion.div
+              key="opening-page"
+              initial={{ opacity: 0 }}
               animate={stage === "fade_out" ? { opacity: 0 } : { opacity: 1 }}
-              transition={{ duration: 0.8, ease: "easeInOut" }}
+              transition={stage === "fade_out" ? { duration: 0.8, ease: "easeInOut" } : { duration: 0.5, ease: "easeOut" }}
               className="relative z-10 flex flex-col justify-center w-full h-full md:min-h-full lg:h-full pointer-events-auto"
             >
               <main className="relative z-10 flex flex-col justify-center w-full h-full md:min-h-full lg:h-full">

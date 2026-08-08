@@ -60,16 +60,10 @@ export default function VolumetricBeam({ animateState = 'hidden', isMobile = fal
       style={{
         transformOrigin: 'top center',
         mixBlendMode: 'screen',
+        opacity: beamScrollOpacity,
       }}
     >
-      {/* Scroll-linked fadeout wrapper */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          opacity: beamScrollOpacity,
-        }}
-      >
-        {/* Rotating, Breathing, and Floating spotlight cone */}
+      {/* Rotating, Breathing, and Floating spotlight cone */}
         <motion.div
           className={
             isMobile
@@ -139,7 +133,6 @@ export default function VolumetricBeam({ animateState = 'hidden', isMobile = fal
             />
           </svg>
         </motion.div>
-      </motion.div>
     </motion.div>
   );
 }

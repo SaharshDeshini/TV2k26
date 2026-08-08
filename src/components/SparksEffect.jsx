@@ -18,8 +18,12 @@ export default function SparksEffect() {
 
     const resizeCanvas = () => {
       if (!canvas) return;
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+      if (dpr !== 1) {
+        ctx.scale(dpr, dpr);
+      }
     };
 
     window.addEventListener("resize", resizeCanvas);

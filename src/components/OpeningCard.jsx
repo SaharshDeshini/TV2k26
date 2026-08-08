@@ -16,8 +16,18 @@ export default function OpeningCard({ src, alt, isDesktop = false }) {
 
         {/* Premium Glassmorphic Container */}
         <div 
-          className="p-3 rounded-[22px] border border-[rgba(245,158,11,0.15)] bg-[#170709]/45 backdrop-blur-[24px] shadow-[0_16px_48px_rgba(0,0,0,0.65)] hover:scale-[1.01] hover:border-[rgba(245,158,11,0.35)] hover:shadow-[0_20px_50px_rgba(245,158,11,0.25)] transition-all duration-500 w-full"
+          className="relative p-3 rounded-[22px] border border-[rgba(245,158,11,0.15)] bg-[#170709]/45 backdrop-blur-[24px] shadow-[0_16px_48px_rgba(0,0,0,0.65)] hover:scale-[1.01] hover:border-[rgba(245,158,11,0.35)] hover:shadow-[0_20px_50px_rgba(245,158,11,0.25)] transition-all duration-500 w-full overflow-hidden"
         >
+          {/* Border shimmer sweep */}
+          <motion.div
+            animate={{ x: ['-100%', '200%'] }}
+            transition={{ duration: 3.2, repeat: Infinity, repeatDelay: 4.5, ease: [0.19, 1, 0.22, 1] }}
+            className="absolute inset-0 pointer-events-none z-10 rounded-[22px]"
+            style={{
+              background: 'linear-gradient(90deg, transparent 0%, rgba(245, 158, 11, 0.18) 40%, rgba(255, 235, 153, 0.32) 50%, rgba(245, 158, 11, 0.18) 60%, transparent 100%)',
+              skewX: '-20deg',
+            }}
+          />
           <motion.img
             src={src}
             alt={alt}

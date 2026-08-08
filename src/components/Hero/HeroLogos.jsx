@@ -25,20 +25,19 @@ export default function HeroLogos({
   const [isTransitionCompleted] = useState(() => typeof window !== 'undefined' && window.__introTransitionComplete && !window.__startCinematic);
 
   // Logo 1 Base Variants (College)
-  // Logo 1 Base Variants (College)
   const logoLeftBase = {
     hidden: { opacity: 0, y: 35, scale: 0.85 },
     fadeout: { opacity: 0, y: 35, scale: 0.85 },
     beam: { opacity: 0, y: 35, scale: 0.85 },
     gold_entry: { opacity: 0, y: 35, scale: 0.85 },
     retract_anchor: { opacity: 0, y: 35, scale: 0.85 },
-    bg_unveil: { opacity: 0, y: 35, scale: 0.85 },
-    badges_particles: {
+    bg_unveil: {
       opacity: 1,
       y: 0,
       scale: 1,
       transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] }
     },
+    badges_particles: { opacity: 1, y: 0, scale: 1 },
     reexpand_morph: { opacity: 1, y: 0, scale: 1 },
     final_cta: { opacity: 1, y: 0, scale: 1 },
     completed: { opacity: 1, y: 0, scale: 1, transition: { duration: 0 } },
@@ -58,14 +57,14 @@ export default function HeroLogos({
     beam: { opacity: 0, y: 15, scale: 0.95, filter: 'none' },
     gold_entry: { opacity: 0, y: 15, scale: 0.95, filter: 'none' },
     retract_anchor: { opacity: 0, y: 15, scale: 0.95, filter: 'none' },
-    bg_unveil: { opacity: 0, y: 15, scale: 0.95, filter: 'none' },
-    badges_particles: {
+    bg_unveil: {
       opacity: 1,
       y: 0,
       scale: 1,
       filter: 'none',
       transition: { duration: 1.2, delay: 0.15, ease: [0.16, 1, 0.3, 1] }
     },
+    badges_particles: { opacity: 1, y: 0, scale: 1, filter: 'none' },
     reexpand_morph: { opacity: 1, y: 0, scale: 1, filter: 'none' },
     final_cta: { opacity: 1, y: 0, scale: 1, filter: 'none' },
     completed: { opacity: 1, y: 0, scale: 1, filter: 'none', transition: { duration: 0 } },

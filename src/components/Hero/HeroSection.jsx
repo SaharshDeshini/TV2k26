@@ -366,7 +366,7 @@ export default function HeroSection({ introPhase = "completed" }) {
             >
               <motion.span 
                 animate={{ opacity: [0.45, 0.75, 0.45] }}
-                transition={{ duration: 3.0, repeat: Infinity, ease: 'easeInOut' }}
+                transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
                 className="text-[9px] sm:text-[10px] tracking-[0.25em] uppercase font-mono text-white/40 group-hover:text-white transition-colors duration-300 select-none"
               >
                 Scroll to Explore
@@ -392,7 +392,7 @@ export default function HeroSection({ introPhase = "completed" }) {
                   ]
                 }}
                 transition={{
-                  duration: 2.5,
+                  duration: 2.8,
                   repeat: Infinity,
                   ease: 'easeInOut',
                 }}
