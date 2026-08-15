@@ -242,12 +242,19 @@ export default function AboutSection({ isMobile = false }) {
                 className="absolute inset-0 rounded-full blur-[25px] pointer-events-none -z-10 animate-float" 
                 style={{ background: 'radial-gradient(circle, rgba(255, 201, 88, 0.25) 0%, transparent 70%)' }} 
               />
-              <img
-                src={clubLogo}
-                alt="VJ Data Questers Logo"
-                className="relative w-20 h-20 object-contain animate-float"
-                draggable={false}
-              />
+              <a
+                href="https://www.vjdataquesters.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative z-10 cursor-pointer block transition-transform duration-300 hover:scale-105"
+              >
+                <img
+                  src={clubLogo}
+                  alt="VJ Data Questers Logo"
+                  className="w-20 h-20 object-contain animate-float"
+                  draggable={false}
+                />
+              </a>
             </div>
 
             <h3 
@@ -398,12 +405,19 @@ export default function AboutSection({ isMobile = false }) {
               {/* Subtle warm ambient glow behind the logo */}
               <div className="absolute inset-0 rounded-full blur-[25px] pointer-events-none -z-10 animate-float" style={{ background: 'radial-gradient(circle, rgba(232, 200, 138, 0.25) 0%, transparent 70%)' }} />
 
-              <img
-                src={clubLogo}
-                alt="VJ Data Questers Logo"
-                className="relative w-20 h-20 object-contain animate-float"
-                draggable={false}
-              />
+              <a
+                href="https://www.vjdataquesters.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative z-10 cursor-pointer block transition-transform duration-300 hover:scale-105"
+              >
+                <img
+                  src={clubLogo}
+                  alt="VJ Data Questers Logo"
+                  className="w-20 h-20 object-contain animate-float"
+                  draggable={false}
+                />
+              </a>
             </div>
 
             <h3 className="text-xl sm:text-2xl font-bold font-heading text-text-primary mb-0.5 tv-about-text-shadow">

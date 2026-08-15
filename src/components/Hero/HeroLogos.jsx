@@ -121,7 +121,7 @@ export default function HeroLogos({
             ? { duration: 0.6, ease: 'easeInOut' }
             : { type: 'spring', stiffness: 150, damping: 25 })
         }
-        className="absolute top-4 left-1/2 z-30"
+        className="absolute top-4 left-1/2 z-30 pointer-events-auto"
         style={{
           transformOrigin: 'center',
           willChange: 'transform, opacity',
@@ -143,7 +143,12 @@ export default function HeroLogos({
           <div className="absolute inset-0 bg-gradient-to-b from-white/[0.04] to-transparent pointer-events-none" />
 
           {/* VNR College Logo */}
-          <div className="flex-[2.2] flex items-center justify-center">
+          <a
+            href="https://www.vnrvjiet.ac.in/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-[2.2] flex items-center justify-center cursor-pointer"
+          >
             <img
               src={collegeLogo}
               alt="VNR VJIET Logo"
@@ -153,7 +158,7 @@ export default function HeroLogos({
               }}
               draggable={false}
             />
-          </div>
+          </a>
 
           {/* Divider */}
           <div className="w-[1px] h-4 bg-white/10 mx-2" />
@@ -186,19 +191,23 @@ export default function HeroLogos({
             ? { opacity: 0.35, scale: 0.95, y: -15, x: 0, rotate: 0 } 
             : (animateState === 'visible' ? 'visible' : 'hidden'))
         }
+        whileHover={{ y: -3 }}
         transition={
-          introPhase === "completed" && !isTransitioning ? undefined : (isTransitioning 
+          introPhase === "completed" && !isTransitioning ? { type: 'spring', stiffness: 220, damping: 20 } : (isTransitioning 
             ? { duration: 0.6, ease: 'easeInOut' }
-            : { type: 'spring', stiffness: 150, damping: 25 })
+            : { type: 'spring', stiffness: 220, damping: 20 })
         }
-        className={`absolute z-10 ${isMobile ? 'left-6 top-8' : 'left-8 lg:left-12 top-10 lg:top-12'}`}
+        className={`absolute z-10 pointer-events-auto ${isMobile ? 'left-6 top-8' : 'left-8 lg:left-12 top-10 lg:top-12'}`}
         style={{
           transformOrigin: 'center',
           willChange: 'transform, opacity',
         }}
       >
-        <div
-          className="cursor-default"
+        <a
+          href="https://www.vnrvjiet.ac.in/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="cursor-pointer block"
           onMouseEnter={() => setLeftHovered(true)}
           onMouseLeave={() => setLeftHovered(false)}
         >
@@ -242,7 +251,7 @@ export default function HeroLogos({
               />
             </motion.div>
           </div>
-        </div>
+        </a>
       </motion.div>
 
       {/* ================= Right Logo: Data Questers ================= */}
@@ -254,13 +263,10 @@ export default function HeroLogos({
             ? { opacity: 0.35, scale: 0.95, y: -15, x: 0, rotate: 0 } 
             : (animateState === 'visible' ? 'visible' : 'hidden'))
         }
-        className={`absolute z-10 ${isMobile ? 'right-6 top-8' : 'right-8 lg:right-12 top-10 lg:top-12'}`}
-        whileHover={{
-          y: -3,
-          rotate: 2.5,
-        }}
+        className={`absolute z-10 pointer-events-auto ${isMobile ? 'right-6 top-8' : 'right-8 lg:right-12 top-10 lg:top-12'}`}
+        whileHover={{ y: -3 }}
         transition={
-          introPhase === "completed" && !isTransitioning ? undefined : (isTransitioning 
+          introPhase === "completed" && !isTransitioning ? { type: 'spring', stiffness: 220, damping: 20 } : (isTransitioning 
             ? { duration: 0.6, ease: 'easeInOut' }
             : { type: 'spring', stiffness: 220, damping: 20 })
         }
@@ -270,7 +276,7 @@ export default function HeroLogos({
         }}
       >
         <div
-          className="cursor-default"
+          className="cursor-default block"
           onMouseEnter={() => setRightHovered(true)}
           onMouseLeave={() => setRightHovered(false)}
         >
