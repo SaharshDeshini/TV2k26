@@ -202,6 +202,14 @@ export default function HeroTitle({
     }
   };
 
+  const handleButtonMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    e.currentTarget.style.setProperty('--mouse-x', `${x}px`);
+    e.currentTarget.style.setProperty('--mouse-y', `${y}px`);
+  };
+
   const glowOpacity = ["gold_entry", "retract_anchor", "bg_unveil", "badges_particles", "reexpand_morph", "final_cta", "completed", "refresh_title", "refresh_settle"].includes(introPhase) || isTransitionCompleted ? 0.08 : 0;
 
   return (
@@ -228,6 +236,20 @@ export default function HeroTitle({
             @keyframes cinematic-shimmer {
               0% { background-position: -200% center; }
               100% { background-position: 200% center; }
+            }
+            .tv-title-letter {
+              display: inline-block;
+              cursor: default;
+              background-image: linear-gradient(110deg, #7a8089 0%, #c4cbcf 25%, #faedd0 48%, #ffffff 50%, #faedd0 52%, #c4cbcf 75%, #7a8089 100%);
+              background-size: 200% 100%;
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              background-clip: text;
+              transition: filter 0.3s ease, background-image 0.3s ease;
+            }
+            .tv-title-letter:hover {
+              background-image: linear-gradient(110deg, #d97706 0%, #f59e0b 25%, #ffe899 48%, #ffffff 50%, #ffe899 52%, #f59e0b 75%, #d97706 100%) !important;
+              filter: drop-shadow(0 0 12px rgba(245, 158, 11, 0.65));
             }
           `}</style>
           <motion.h1
@@ -278,7 +300,7 @@ export default function HeroTitle({
               {(introPhase !== "completed" || !isTransitionCompleted) && (
                 <motion.span
                   variants={goldOpacityVariants}
-                  className="absolute left-0 top-0 w-full inline-flex select-none text-clip-gradient"
+                  className="absolute left-0 top-0 w-full inline-flex select-none text-clip-gradient pointer-events-none"
                   style={{
                     backgroundImage: `linear-gradient(120deg, #D97706 0%, #F59E0B 18%, #FBBF24 35%, #FFE899 50%, #FBBF24 65%, #F59E0B 82%, #D97706 100%)`,
                     backgroundSize: '200% auto',
@@ -314,15 +336,12 @@ export default function HeroTitle({
                 <motion.span
                   key={index}
                   variants={letterVariants}
-                  className="inline-block cursor-default text-clip-gradient transition-all duration-300"
-                  style={{
-                    display: 'inline-block',
-                    backgroundImage: 'linear-gradient(110deg, #7a8089 0%, #c4cbcf 25%, #faedd0 48%, #ffffff 50%, #faedd0 52%, #c4cbcf 75%, #7a8089 100%)',
-                    backgroundSize: '200% 100%',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
+                  whileHover={{
+                    y: -10,
+                    scale: 1.18,
+                    transition: { type: 'spring', stiffness: 400, damping: 15 }
                   }}
+                  className="tv-title-letter"
                 >
                   {char}
                 </motion.span>
@@ -381,27 +400,31 @@ export default function HeroTitle({
             rel="noopener noreferrer"
             whileHover="hover"
             whileTap={{ scale: 0.97, y: 0 }}
-            className={`group relative border font-heading font-semibold tracking-[0.16em] uppercase text-[11px] sm:text-xs rounded-full cursor-pointer overflow-hidden text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-black ${isMobile ? 'w-full px-6 py-4 min-h-[50px]' : 'px-8.5 py-3.5'}`}
+            onMouseMove={handleButtonMouseMove}
+            className={`group relative border font-heading font-semibold uppercase text-[11px] sm:text-xs rounded-full cursor-pointer overflow-hidden text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-black ${isMobile ? 'w-full px-6 py-4 min-h-[50px]' : 'px-8.5 py-3.5'}`}
             style={{
               background: 'linear-gradient(135deg, #f3e5ca 0%, #d8b26e 50%, #9a7538 100%)', // Rich metallic champagne gold
               borderColor: 'rgba(243, 229, 202, 0.35)', // Light champagne gold outline
               color: '#080604', // Dark charcoal text
+              letterSpacing: '0.16em',
               boxShadow: '0 2px 4px rgba(0, 0, 0, 0.20), 0 8px 18px rgba(154, 117, 56, 0.25), inset 0 1px 1.5px rgba(255, 255, 255, 0.60)',
-              transition: 'background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, color 0.4s ease',
+              transition: 'background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, color 0.4s ease, letter-spacing 0.4s ease',
             }}
             variants={{
               hover: {
-                y: -2, // Lift by exactly 2px
+                y: -3,
+                scale: 1.03,
+                letterSpacing: '0.22em',
                 borderColor: '#ffffff', // High-visibility white border on hover
                 background: 'linear-gradient(135deg, #f6ebd7 0%, #e0c286 50%, #ad8444 100%)', // Slightly brighter champagne sheen
-                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.25), 0 14px 28px rgba(154, 117, 56, 0.40), inset 0 1px 2px rgba(255, 255, 255, 0.80)',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25), 0 14px 28px rgba(154, 117, 56, 0.40), inset 0 1px 2px rgba(255, 255, 255, 0.80)',
               }
             }}
           >
             <span className="relative z-10 flex items-center justify-center gap-2">
               Register Now
               <svg
-                className="w-4 h-4 transform group-hover:scale-105 transition-transform duration-300"
+                className="w-4 h-4 transform group-hover:scale-115 group-hover:rotate-6 transition-all duration-300"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2.2"
@@ -415,16 +438,32 @@ export default function HeroTitle({
             {/* Beam ambient reflection glow */}
             <div className="tv-hero-btn-glow" />
 
+            {/* Spotlight Cursor Glow */}
+            <div
+              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"
+              style={{
+                background: 'radial-gradient(80px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(255, 255, 255, 0.35) 0%, transparent 80%)',
+              }}
+            />
+ 
             {/* Amber Shimmer light sweep */}
             <motion.div
               variants={{
-                hover: { x: '150%' }
+                hover: {
+                  x: ['-150%', '150%'],
+                  transition: {
+                    repeat: Infinity,
+                    repeatType: 'loop',
+                    duration: 1.6,
+                    ease: [0.19, 1, 0.22, 1],
+                    repeatDelay: 0.8,
+                  }
+                }
               }}
               initial={{ x: '-150%', skewX: -32 }}
-              transition={{ duration: 1.1, ease: [0.19, 1, 0.22, 1] }}
               className="absolute inset-0 pointer-events-none"
               style={{
-                background: 'linear-gradient(90deg, transparent 0%, rgba(255, 201, 88, 0.25) 50%, transparent 100%)',
+                background: 'linear-gradient(90deg, transparent 0%, rgba(255, 201, 88, 0.35) 50%, transparent 100%)',
               }}
             />
           </motion.a>
@@ -436,14 +475,17 @@ export default function HeroTitle({
               onClick={handleExploreClick}
               whileHover="hover"
               whileTap={{ scale: 0.97, y: 0 }}
+              onMouseMove={handleButtonMouseMove}
               variants={{
                 ...secondaryButtonVariants,
                 hover: {
-                  y: -2, // Lift by exactly 2px
-                  borderColor: 'rgba(243, 229, 202, 0.25)', // Subtle warm border highlight
+                  y: -3,
+                  scale: 1.03,
+                  letterSpacing: '0.20em',
+                  borderColor: 'rgba(243, 229, 202, 0.35)', // Subtle warm border highlight
                   backgroundColor: 'rgba(255, 255, 255, 0.08)', // Brighter glass
                   color: '#ffffff',
-                  boxShadow: '0 4px 12px rgba(243, 229, 202, 0.05), 0 8px 24px rgba(0, 0, 0, 0.30), inset 0 1px 1px rgba(255, 255, 255, 0.12)',
+                  boxShadow: '0 0 25px rgba(243, 229, 202, 0.12), 0 8px 24px rgba(0, 0, 0, 0.40), inset 0 1px 1px rgba(255, 255, 255, 0.15)',
                 }
               }}
               initial={isTransitionCompleted && introPhase === "completed" ? "visible" : "hidden"}
@@ -459,13 +501,13 @@ export default function HeroTitle({
                 color: '#ffffff', // White text
                 letterSpacing: '0.16em', // Base spacing
                 boxShadow: '0 4px 16px rgba(0, 0, 0, 0.20), inset 0 1px 1px rgba(255, 255, 255, 0.05)',
-                transition: 'background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, color 0.4s ease',
+                transition: 'background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, color 0.4s ease, letter-spacing 0.4s ease',
               }}
             >
               <span className="relative z-10 flex items-center justify-center gap-2">
                 Conclave Info
                 <svg
-                  className="w-3.5 h-3.5 transform group-hover:translate-x-[5.5px] transition-transform duration-300"
+                  className="w-3.5 h-3.5 transform group-hover:translate-x-1.5 transition-transform duration-300"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2.5"
@@ -479,13 +521,29 @@ export default function HeroTitle({
               {/* Beam ambient reflection glow */}
               <div className="tv-hero-btn-glow" />
 
+              {/* Spotlight Cursor Glow */}
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"
+                style={{
+                  background: 'radial-gradient(100px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(243, 229, 202, 0.12) 0%, transparent 80%)',
+                }}
+              />
+
               {/* Amber Shimmer light sweep */}
               <motion.div
                 variants={{
-                  hover: { x: '150%' }
+                  hover: {
+                    x: ['-150%', '150%'],
+                    transition: {
+                      repeat: Infinity,
+                      repeatType: 'loop',
+                      duration: 1.6,
+                      ease: [0.19, 1, 0.22, 1],
+                      repeatDelay: 0.8,
+                    }
+                  }
                 }}
                 initial={{ x: '-150%', skewX: -32 }}
-                transition={{ duration: 1.1, ease: [0.19, 1, 0.22, 1] }}
                 className="absolute inset-0 pointer-events-none"
                 style={{
                   background: 'linear-gradient(90deg, transparent 0%, rgba(255, 201, 88, 0.15) 50%, transparent 100%)',

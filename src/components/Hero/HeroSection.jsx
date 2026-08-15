@@ -354,13 +354,13 @@ export default function HeroSection({ introPhase = "completed" }) {
           </div>
 
           <motion.div
-            initial={isTransitionCompleted ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
-            animate={introPhase === "completed" && entranceReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
-            transition={isTransitionCompleted ? { duration: 0 } : { duration: 1.0, delay: 0.2, ease: GOLDEN_EASE }}
+            style={{ opacity: arrowOpacity }}
             className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 pointer-events-auto"
           >
             <motion.div
-              style={{ opacity: arrowOpacity }}
+              initial={isTransitionCompleted ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+              animate={introPhase === "completed" && entranceReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+              transition={isTransitionCompleted ? { duration: 0 } : { duration: 1.0, delay: 0.2, ease: GOLDEN_EASE }}
               className="tv-scroll-cue flex flex-col items-center gap-2.5 cursor-pointer group"
               onClick={handleScrollDown}
             >
